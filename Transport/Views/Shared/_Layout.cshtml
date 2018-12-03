@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <h1>
+                @ViewBag.AppName
+            </h1>
+        </div> 
+        <div class="col-md-6">
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+
+    @*<div class="navbar navbar-inverse navbar-fixed-left">
+        <div class="container">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        </div>*@
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="navbar-fixed-left col-md-2 maketopborder">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("User Management", "Index", "UserManagement")</li>
+                    <li>@Html.ActionLink("Customers", "Index", "Customers")</li>
+                    <li>@Html.ActionLink("System Sections", "Index", "SystemSections")</li>
+                    <li>@Html.ActionLink("Support Statuses", "Index", "SupportStatuses")</li>
+                    <li>@Html.ActionLink("Docks", "Index", "Docks")</li>
+                </ul>
+            </div>
+
+            <div class="container body-content col-md-10 maketopborder">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+</body>
+</html>
