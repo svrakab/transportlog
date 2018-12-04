@@ -329,13 +329,13 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
     <Content Include="Views\Dock\Index.cshtml" />
+    <Content Include="Views\UserManagement\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Customer\" />
     <Folder Include="Views\SupportStatuse\" />
     <Folder Include="Views\SystemSection\" />
-    <Folder Include="Views\UserManagement\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
