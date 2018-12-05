@@ -480,8 +480,9 @@
     <Content Include="Views\Status\Edit.cshtml" />
     <Content Include="Views\Status\Index.cshtml" />
     <Content Include="Views\UserManagement2\Index.cshtml" />
-    <Content Include="Views\Home\_SchedulerPartial.cshtml" />
     <Content Include="tsconfig.json" />
+    <Content Include="Views\Shared\_LayoutHome.cshtml" />
+    <Content Include="Views\Home\_Scheduler3Partial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

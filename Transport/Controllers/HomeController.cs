@@ -9,32 +9,35 @@ namespace Transport.Controllers
 {
     public class HomeController : Controller
     {
+        Transport.Models.TransportLogEntities appointmentContext = new Transport.Models.TransportLogEntities();
+        object resourceContext = null;
+
         public ActionResult Index()
         {
             return View();
         }
 
-        Transport.Models.TransportLogEntities appointmentContext = new Transport.Models.TransportLogEntities();
-        Transport.Models.TransportLogEntities resourceContext = new Transport.Models.TransportLogEntities();
 
-        public ActionResult SchedulerPartial()
+        
+
+        public ActionResult Scheduler3Partial()
         {
             var appointments = appointmentContext.Load;
-            var resources = resourceContext.LoadType;
+            System.Collections.IEnumerable resources = null; // Get resources from the context
 
             ViewData["Appointments"] = appointments.ToList();
-            ViewData["Resources"] = resources.ToList();
+            ViewData["Resources"] = resources;
 
-            return PartialView("_SchedulerPartial");
+            return PartialView("_Scheduler3Partial");
         }
-        public ActionResult SchedulerPartialEditAppointment()
+        public ActionResult Scheduler3PartialEditAppointment()
         {
             var appointments = appointmentContext.Load;
-            var resources = resourceContext.LoadType;
+            System.Collections.IEnumerable resources = null; // Get resources from the context
 
             try
             {
-                HomeControllerSchedulerSettings.UpdateEditableDataObject(appointmentContext, resourceContext);
+                HomeControllerScheduler3Settings.UpdateEditableDataObject(appointmentContext, resourceContext);
             }
             catch (Exception e)
             {
@@ -42,12 +45,12 @@ namespace Transport.Controllers
             }
 
             ViewData["Appointments"] = appointments.ToList();
-            ViewData["Resources"] = resources.ToList();
+            ViewData["Resources"] = resources;
 
-            return PartialView("_SchedulerPartial");
+            return PartialView("_Scheduler3Partial");
         }
     }
-    public class HomeControllerSchedulerSettings
+    public class HomeControllerScheduler3Settings
     {
         static DevExpress.Web.Mvc.MVCxAppointmentStorage appointmentStorage;
         public static DevExpress.Web.Mvc.MVCxAppointmentStorage AppointmentStorage
@@ -59,7 +62,7 @@ namespace Transport.Controllers
                     appointmentStorage = new DevExpress.Web.Mvc.MVCxAppointmentStorage();
                     appointmentStorage.Mappings.AppointmentId = "ID";
                     appointmentStorage.Mappings.Start = "PlannedTime";
-                    appointmentStorage.Mappings.End = "DockOff";
+                    appointmentStorage.Mappings.End = "DepartureTime";
                     appointmentStorage.Mappings.Subject = "IDUser";
                     appointmentStorage.Mappings.Description = "";
                     appointmentStorage.Mappings.Location = "";
@@ -68,7 +71,7 @@ namespace Transport.Controllers
                     appointmentStorage.Mappings.RecurrenceInfo = "";
                     appointmentStorage.Mappings.ReminderInfo = "";
                     appointmentStorage.Mappings.Label = "";
-                    appointmentStorage.Mappings.Status = "IDStatus";
+                    appointmentStorage.Mappings.Status = "";
                     appointmentStorage.Mappings.ResourceId = "";
                 }
                 return appointmentStorage;
@@ -83,26 +86,26 @@ namespace Transport.Controllers
                 if (resourceStorage == null)
                 {
                     resourceStorage = new DevExpress.Web.Mvc.MVCxResourceStorage();
-                    resourceStorage.Mappings.ResourceId = "ID";
-                    resourceStorage.Mappings.Caption = "Name";
+                    resourceStorage.Mappings.ResourceId = "";
+                    resourceStorage.Mappings.Caption = "";
                 }
                 return resourceStorage;
             }
         }
 
-        public static void UpdateEditableDataObject(Transport.Models.TransportLogEntities appointmentContext, Transport.Models.TransportLogEntities resourceContext)
+        public static void UpdateEditableDataObject(Transport.Models.TransportLogEntities appointmentContext, object resourceContext)
         {
             InsertAppointments(appointmentContext, resourceContext);
             UpdateAppointments(appointmentContext, resourceContext);
             DeleteAppointments(appointmentContext, resourceContext);
         }
 
-        static void InsertAppointments(Transport.Models.TransportLogEntities appointmentContext, Transport.Models.TransportLogEntities resourceContext)
+        static void InsertAppointments(Transport.Models.TransportLogEntities appointmentContext, object resourceContext)
         {
             var appointments = appointmentContext.Load.ToList();
-            var resources = resourceContext.LoadType;
+            System.Collections.IEnumerable resources = null;
 
-            var newAppointments = DevExpress.Web.Mvc.SchedulerExtension.GetAppointmentsToInsert<Transport.Models.Load>("Scheduler", appointments, resources,
+            var newAppointments = DevExpress.Web.Mvc.SchedulerExtension.GetAppointmentsToInsert<Transport.Models.Load>("Scheduler3", appointments, resources,
                 AppointmentStorage, ResourceStorage);
             foreach (var appointment in newAppointments)
             {
@@ -110,12 +113,12 @@ namespace Transport.Controllers
             }
             appointmentContext.SaveChanges();
         }
-        static void UpdateAppointments(Transport.Models.TransportLogEntities appointmentContext, Transport.Models.TransportLogEntities resourceContext)
+        static void UpdateAppointments(Transport.Models.TransportLogEntities appointmentContext, object resourceContext)
         {
             var appointments = appointmentContext.Load.ToList();
-            var resources = resourceContext.LoadType;
+            System.Collections.IEnumerable resources = null;
 
-            var updAppointments = DevExpress.Web.Mvc.SchedulerExtension.GetAppointmentsToUpdate<Transport.Models.Load>("Scheduler", appointments, resources,
+            var updAppointments = DevExpress.Web.Mvc.SchedulerExtension.GetAppointmentsToUpdate<Transport.Models.Load>("Scheduler3", appointments, resources,
                 AppointmentStorage, ResourceStorage);
             foreach (var appointment in updAppointments)
             {
@@ -125,12 +128,12 @@ namespace Transport.Controllers
             appointmentContext.SaveChanges();
         }
 
-        static void DeleteAppointments(Transport.Models.TransportLogEntities appointmentContext, Transport.Models.TransportLogEntities resourceContext)
+        static void DeleteAppointments(Transport.Models.TransportLogEntities appointmentContext, object resourceContext)
         {
             var appointments = appointmentContext.Load.ToList();
-            var resources = resourceContext.LoadType;
+            System.Collections.IEnumerable resources = null;
 
-            var delAppointments = DevExpress.Web.Mvc.SchedulerExtension.GetAppointmentsToRemove<Transport.Models.Load>("Scheduler", appointments, resources,
+            var delAppointments = DevExpress.Web.Mvc.SchedulerExtension.GetAppointmentsToRemove<Transport.Models.Load>("Scheduler3", appointments, resources,
                 AppointmentStorage, ResourceStorage);
             foreach (var appointment in delAppointments)
             {

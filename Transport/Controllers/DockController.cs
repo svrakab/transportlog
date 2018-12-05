@@ -15,12 +15,14 @@ namespace Transport.Controllers
         private TransportLogEntities db = new TransportLogEntities();
 
         // GET: Docks
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View(db.Dock.ToList());
         }
 
         // GET: Docks/Details/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,6 +38,7 @@ namespace Transport.Controllers
         }
 
         // GET: Docks/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -46,6 +49,7 @@ namespace Transport.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "ID,Name,DockNumber,Description")] Dock dock)
         {
             if (ModelState.IsValid)
@@ -59,6 +63,7 @@ namespace Transport.Controllers
         }
 
         // GET: Docks/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -78,6 +83,7 @@ namespace Transport.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "ID,Name,DockNumber,Description")] Dock dock)
         {
             if (ModelState.IsValid)
@@ -90,6 +96,7 @@ namespace Transport.Controllers
         }
 
         // GET: Docks/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -107,6 +114,7 @@ namespace Transport.Controllers
         // POST: Docks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Dock dock = db.Dock.Find(id);
@@ -115,6 +123,7 @@ namespace Transport.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin")]
         protected override void Dispose(bool disposing)
         {
             if (disposing)

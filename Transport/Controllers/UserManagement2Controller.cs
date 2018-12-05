@@ -9,7 +9,7 @@ namespace Transport.Controllers
     public class UserManagement2Controller : Controller
     {
         Models.ApplicationDbContext context = new Models.ApplicationDbContext();
-
+        
         // GET: UserManagement2
         public ActionResult Index()
         {

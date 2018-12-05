@@ -113,10 +113,11 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LoadNumber" Type="int" Nullable="false" />
           <Property Name="NumberOfPallets" Type="int" Nullable="false" />
-          <Property Name="PlannedTime" Type="datetime" Nullable="false" />
-          <Property Name="ArivalTime" Type="datetime" />
-          <Property Name="DockOn" Type="datetime" />
-          <Property Name="DockOff" Type="datetime" />
+          <Property Name="PlannedTime" Type="smalldatetime" Nullable="false" />
+          <Property Name="ArivalTime" Type="smalldatetime" />
+          <Property Name="DockOn" Type="smalldatetime" />
+          <Property Name="DockOff" Type="smalldatetime" />
+          <Property Name="DepartureTime" Type="smalldatetime" Nullable="false" />
           <Property Name="IDStatus" Type="int" Nullable="false" />
           <Property Name="IDLoadType" Type="int" Nullable="false" />
           <Property Name="IDCustomers" Type="int" Nullable="false" />
@@ -592,10 +593,11 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LoadNumber" Type="Int32" Nullable="false" />
           <Property Name="NumberOfPallets" Type="Int32" Nullable="false" />
-          <Property Name="PlannedTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ArivalTime" Type="DateTime" Precision="3" />
-          <Property Name="DockOn" Type="DateTime" Precision="3" />
-          <Property Name="DockOff" Type="DateTime" Precision="3" />
+          <Property Name="PlannedTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ArivalTime" Type="DateTime" Precision="0" />
+          <Property Name="DockOn" Type="DateTime" Precision="0" />
+          <Property Name="DockOff" Type="DateTime" Precision="0" />
+          <Property Name="DepartureTime" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="IDStatus" Type="Int32" Nullable="false" />
           <Property Name="IDLoadType" Type="Int32" Nullable="false" />
           <Property Name="IDCustomers" Type="Int32" Nullable="false" />
@@ -888,6 +890,7 @@
                 <ScalarProperty Name="IDCustomers" ColumnName="IDCustomers" />
                 <ScalarProperty Name="IDLoadType" ColumnName="IDLoadType" />
                 <ScalarProperty Name="IDStatus" ColumnName="IDStatus" />
+                <ScalarProperty Name="DepartureTime" ColumnName="DepartureTime" />
                 <ScalarProperty Name="DockOff" ColumnName="DockOff" />
                 <ScalarProperty Name="DockOn" ColumnName="DockOn" />
                 <ScalarProperty Name="ArivalTime" ColumnName="ArivalTime" />
