@@ -67,3 +67,7 @@ h1 {
 .col-md-2,maketopborder {
     padding-left:0;
 }
+.btn-floatright {
+    float:right;
+    margin:20px;
+}

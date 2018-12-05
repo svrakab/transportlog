@@ -63,6 +63,24 @@ namespace Transport.Models
 
     public class RegisterViewModel
     {
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+        
+        [Display(Name = "City")]
+        public string City { get; set; }
+
+        [Display(Name = "Country")]
+        public string Country { get; set; }
+
+        [Display(Name = "Phone")]
+        public string PhoneNumber { get; set; }
+
         [Required]
         [Display(Name = "UserRoles")]
         public string UserRoles { get; set; }
@@ -115,5 +133,24 @@ namespace Transport.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+    }
+
+    public class GroupedUserViewModel
+    {
+        public int Id { get; set; }
+        [Required]
+        public List<UserViewModel> Users { get; set; }
+        [Required]
+        public List<UserViewModel> Admins { get; set; }
+    }
+    public class UserViewModel
+    {
+        public int Id { get; set; }
+        [Required]
+        public string Username { get; set; }
+        [Required]
+        public string Email { get; set; }
+        [Required]
+        public string RoleName { get; set; }
     }
 }

@@ -170,7 +170,7 @@ namespace Transport.Controllers
                     //Assign Role to user Here      
                     await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
                     //Ends Here    
-                    return RedirectToAction("Index", "Users");
+                    return RedirectToAction("Index", "UserManagement");
                 }
                 ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
                                           .ToList(), "Name", "Name");
@@ -401,7 +401,7 @@ namespace Transport.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //
@@ -489,6 +489,10 @@ namespace Transport.Controllers
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
+
+        
+
+
         #endregion
     }
 }
