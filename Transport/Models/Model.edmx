@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="TransportLogModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="TransportLogModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -122,7 +122,6 @@
           <Property Name="IDLoadType" Type="int" Nullable="false" />
           <Property Name="IDCustomers" Type="int" Nullable="false" />
           <Property Name="IDDocks" Type="int" Nullable="false" />
-          <Property Name="IDUser" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="LoadType">
           <Key>
@@ -140,16 +139,6 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Color" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <Association Name="FK_AspNetUsers_Country">
           <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
@@ -231,18 +220,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Load_AspNetUsers">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
-          <End Role="Load" Type="Self.Load" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Load">
-              <PropertyRef Name="IDUser" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Load_LoadType">
           <End Role="LoadType" Type="Self.LoadType" Multiplicity="1" />
           <End Role="Load" Type="Self.Load" Multiplicity="*" />
@@ -291,37 +268,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
-        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="TransportLogModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -335,7 +281,6 @@
           <EntitySet Name="Load" EntityType="Self.Load" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoadType" EntityType="Self.LoadType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AspNetUsers_Country" Association="Self.FK_AspNetUsers_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -359,10 +304,6 @@
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Load_AspNetUsers" Association="Self.FK_Load_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Load" EntitySet="Load" />
           </AssociationSet>
           <AssociationSet Name="FK_Load_LoadType" Association="Self.FK_Load_LoadType">
             <End Role="LoadType" EntitySet="LoadType" />
@@ -427,7 +368,6 @@
           <EntitySet Name="Load" EntityType="TransportLogModel.Load" />
           <EntitySet Name="LoadType" EntityType="TransportLogModel.LoadType" />
           <EntitySet Name="Status" EntityType="TransportLogModel.Status" />
-          <EntitySet Name="sysdiagrams" EntityType="TransportLogModel.sysdiagrams" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="TransportLogModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -439,10 +379,6 @@
           <AssociationSet Name="FK_AspNetUsers_Country" Association="TransportLogModel.FK_AspNetUsers_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Load_AspNetUsers" Association="TransportLogModel.FK_Load_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Load" EntitySet="Load" />
           </AssociationSet>
           <AssociationSet Name="FK_Customer_Country" Association="TransportLogModel.FK_Customer_Country">
             <End Role="Country" EntitySet="Country" />
@@ -545,7 +481,6 @@
           <NavigationProperty Name="AspNetUserClaims" Relationship="TransportLogModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="TransportLogModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
           <NavigationProperty Name="Country" Relationship="TransportLogModel.FK_AspNetUsers_Country" FromRole="AspNetUsers" ToRole="Country" />
-          <NavigationProperty Name="Load" Relationship="TransportLogModel.FK_Load_AspNetUsers" FromRole="AspNetUsers" ToRole="Load" />
           <NavigationProperty Name="AspNetRoles" Relationship="TransportLogModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
         </EntityType>
         <EntityType Name="Country">
@@ -602,8 +537,6 @@
           <Property Name="IDLoadType" Type="Int32" Nullable="false" />
           <Property Name="IDCustomers" Type="Int32" Nullable="false" />
           <Property Name="IDDocks" Type="Int32" Nullable="false" />
-          <Property Name="IDUser" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUsers" Relationship="TransportLogModel.FK_Load_AspNetUsers" FromRole="Load" ToRole="AspNetUsers" />
           <NavigationProperty Name="Customer" Relationship="TransportLogModel.FK_Loads_Customers" FromRole="Load" ToRole="Customer" />
           <NavigationProperty Name="Dock" Relationship="TransportLogModel.FK_Loads_Docks" FromRole="Load" ToRole="Dock" />
           <NavigationProperty Name="LoadType" Relationship="TransportLogModel.FK_Load_LoadType" FromRole="Load" ToRole="LoadType" />
@@ -627,16 +560,6 @@
           <Property Name="Color" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Load" Relationship="TransportLogModel.FK_Load_Status" FromRole="Status" ToRole="Load" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="TransportLogModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
@@ -675,18 +598,6 @@
             </Principal>
             <Dependent Role="AspNetUsers">
               <PropertyRef Name="IDCountry" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Load_AspNetUsers">
-          <End Type="TransportLogModel.AspNetUsers" Role="AspNetUsers" Multiplicity="0..1" />
-          <End Type="TransportLogModel.Load" Role="Load" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Load">
-              <PropertyRef Name="IDUser" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -760,30 +671,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="TransportLogModelStoreContainer" CdmEntityContainer="TransportLogEntities">
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="TransportLogModel.Store.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="TransportLogModel.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="TransportLogModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="TransportLogModel.Store.sp_helpdiagramdefinition">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="TransportLogModel.sp_helpdiagramdefinition_Result">
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="TransportLogModel.Store.sp_helpdiagrams">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="TransportLogModel.sp_helpdiagrams_Result">
-                <ScalarProperty Name="Database" ColumnName="Database" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="TransportLogModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="TransportLogModel.Store.sp_upgraddiagrams" />
           <EntitySetMapping Name="C__MigrationHistory">
             <EntityTypeMapping TypeName="TransportLogModel.C__MigrationHistory">
               <MappingFragment StoreEntitySet="__MigrationHistory">
@@ -885,7 +772,6 @@
           <EntitySetMapping Name="Load">
             <EntityTypeMapping TypeName="TransportLogModel.Load">
               <MappingFragment StoreEntitySet="Load">
-                <ScalarProperty Name="IDUser" ColumnName="IDUser" />
                 <ScalarProperty Name="IDDocks" ColumnName="IDDocks" />
                 <ScalarProperty Name="IDCustomers" ColumnName="IDCustomers" />
                 <ScalarProperty Name="IDLoadType" ColumnName="IDLoadType" />
@@ -920,17 +806,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="TransportLogModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <AssociationSetMapping Name="AspNetUserRoles" TypeName="TransportLogModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
             <EndProperty Name="AspNetUsers">
               <ScalarProperty Name="Id" ColumnName="UserId" />
@@ -939,7 +814,7 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
-          </EntityContainerMapping>
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Transport.Models.LoadViewModel
+
+@{
     ViewBag.Title = "Home";
     ViewBag.AppName = "Transport Log";
 }
@@ -7,5 +9,38 @@
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
 }
 
+@(Html.DevExtreme().Scheduler()
+        .ID("scheduler")
+        .DataSource(Model.LoadList)
+        .TextExpr("LoadNumber")
+        .StartDateExpr("PlannedTime")
+        .EndDateExpr("DepartureTime")
+        .Views(views =>
+        {
+            views.Add()
+                .Name("Day")
+                .Type(SchedulerViewType.Day)
+                .GroupOrientation(Orientation.Horizontal)
+                .CellDuration(60);
 
-@Html.Action("Scheduler3Partial")
+        })
+        .CurrentView(SchedulerViewType.Day)
+        .Groups(new string[] { "IDDocks" })
+        .Resources(res =>
+        {
+            res.Add()
+                .FieldExpr("IDDocks")
+                .ValueExpr("ID")
+                .DisplayExpr("Name")
+                .AllowMultiple(true)
+                .Label("Name")
+                .DataSource(Model.DockList);
+        })
+        .CrossScrollingEnabled(false)
+        .CurrentDate(new DateTime(2018, 5, 12))
+        .StartDayHour(0)
+        .ShowCurrentTimeIndicator(true)
+        .ShowAllDayPanel(false)
+        .EndDayHour(24)
+        .ShowCurrentTimeIndicator(true)
+)

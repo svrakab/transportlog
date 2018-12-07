@@ -5,22 +5,20 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="a540353afd1c48c4a7a3742f7e59be2f" Name="Diagram1">
-        <EntityTypeShape EntityType="TransportLogModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="TransportLogModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="4.625" />
-        <EntityTypeShape EntityType="TransportLogModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="8.75" />
-        <EntityTypeShape EntityType="TransportLogModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="6.125" />
-        <EntityTypeShape EntityType="TransportLogModel.AspNetUsers" Width="1.5" PointX="3" PointY="5.625" />
-        <EntityTypeShape EntityType="TransportLogModel.Country" Width="1.5" PointX="0.75" PointY="7.375" />
-        <EntityTypeShape EntityType="TransportLogModel.Customer" Width="1.5" PointX="3" PointY="13.125" />
-        <EntityTypeShape EntityType="TransportLogModel.Dock" Width="1.5" PointX="3" PointY="17.375" />
-        <EntityTypeShape EntityType="TransportLogModel.Load" Width="1.5" PointX="5.25" PointY="11.75" />
-        <EntityTypeShape EntityType="TransportLogModel.LoadType" Width="1.5" PointX="3" PointY="22.875" />
-        <EntityTypeShape EntityType="TransportLogModel.Status" Width="1.5" PointX="3" PointY="20.125" />
-        <EntityTypeShape EntityType="TransportLogModel.sysdiagrams" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="TransportLogModel.C__MigrationHistory" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="TransportLogModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="2.625" />
+        <EntityTypeShape EntityType="TransportLogModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="6.75" />
+        <EntityTypeShape EntityType="TransportLogModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="4.25" />
+        <EntityTypeShape EntityType="TransportLogModel.AspNetUsers" Width="1.5" PointX="3" PointY="3.75" />
+        <EntityTypeShape EntityType="TransportLogModel.Country" Width="1.5" PointX="0.75" PointY="5.375" />
+        <EntityTypeShape EntityType="TransportLogModel.Customer" Width="1.5" PointX="3" PointY="11" />
+        <EntityTypeShape EntityType="TransportLogModel.Dock" Width="1.5" PointX="3" PointY="18.625" />
+        <EntityTypeShape EntityType="TransportLogModel.Load" Width="1.5" PointX="5.25" PointY="10.625" />
+        <EntityTypeShape EntityType="TransportLogModel.LoadType" Width="1.5" PointX="3" PointY="16" />
+        <EntityTypeShape EntityType="TransportLogModel.Status" Width="1.5" PointX="3" PointY="21.375" />
         <AssociationConnector Association="TransportLogModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="TransportLogModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="TransportLogModel.FK_AspNetUsers_Country" />
-        <AssociationConnector Association="TransportLogModel.FK_Load_AspNetUsers" />
         <AssociationConnector Association="TransportLogModel.FK_Customer_Country" />
         <AssociationConnector Association="TransportLogModel.FK_Loads_Customers" />
         <AssociationConnector Association="TransportLogModel.FK_Loads_Docks" />

@@ -26,9 +26,7 @@ namespace Transport.Models
         public int IDLoadType { get; set; }
         public int IDCustomers { get; set; }
         public int IDDocks { get; set; }
-        public string IDUser { get; set; }
     
-        public virtual AspNetUsers AspNetUsers { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual Dock Dock { get; set; }
         public virtual LoadType LoadType { get; set; }
