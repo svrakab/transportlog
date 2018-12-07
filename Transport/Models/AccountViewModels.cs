@@ -63,10 +63,10 @@ namespace Transport.Models
 
     public class RegisterViewModel
     {
-        [Display(Name = "First Name")]
+        [Display(Name = "Name")]
         public string FirstName { get; set; }
 
-        [Display(Name = "Last Name")]
+        [Display(Name = "")]
         public string LastName { get; set; }
 
         [Display(Name = "Address")]
@@ -146,11 +146,22 @@ namespace Transport.Models
     public class UserViewModel
     {
         public int Id { get; set; }
-        [Required]
-        public string Username { get; set; }
-        [Required]
-        public string Email { get; set; }
-        [Required]
+        
+        public string Name { get; set; }
+
+        public string Address { get; set; }
+
+        public string City { get; set; }
+
+        public string Country { get; set; }
+
+        public string Phone { get; set; }
+
         public string RoleName { get; set; }
+
+        public string Username { get; set; }
+
+        public string Email { get; set; }
+
     }
 }

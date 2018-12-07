@@ -1,0 +1,82 @@
+﻿@model Transport.Models.GroupedUserViewModel
+
+@{
+    ViewBag.Title = "User Managment";
+}
+
+
+@Styles.Render("~/Content/css")
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { }, new { @class = "btn btn-default btn-leftmargin" })
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            Actions
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IDCountry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Active)
+        </th>
+        <th></th>
+    </tr>
+
+    @{
+        var i = 0;
+        foreach (var item in Model)
+        {
+
+    <tr style="background-color:@(i%2 == 1 ? "grey;" : "white;")">
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-default" })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IDCountry)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Active)
+        </td>
+    </tr>
+            i++;
+        }
+    }
+</table>
+
+
+

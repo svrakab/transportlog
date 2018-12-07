@@ -1,9 +1,0 @@
-@Html.DevExpress().DataView(settings => {
-    settings.Name = "DataView";
-    settings.CallbackRouteValues = new { Controller = "UserManagement", Action = "DataViewPartial" };
-    settings.AllowPaging = false;
-		settings.SettingsTableLayout.ColumnCount = 2;
-	settings.SetItemTemplateContent(c => {
-		ViewContext.Writer.Write("Item content");
-	});
-}).Bind(Model).GetHtml()

@@ -71,3 +71,7 @@ h1 {
     float:right;
     margin:20px;
 }
+
+.dx-scheduler-cell-sizes-horizontal {
+    width: 100px;
+}

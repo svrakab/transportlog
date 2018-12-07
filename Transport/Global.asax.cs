@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,12 @@ namespace Transport
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                Formatting = Newtonsoft.Json.Formatting.Indented,
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            };
         }
     }
 }
