@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Transport.Models;
 using System.Data.Entity;
+using System.Net;
 
 namespace Transport.Controllers
 {
@@ -16,47 +17,93 @@ namespace Transport.Controllers
         Models.TransportLogEntities transpContext = new Models.TransportLogEntities();
 
         // GET: UserManagement
+        private TransportLogEntities db = new TransportLogEntities();
+
+        public ActionResult Index3()
+        {
+            var users = db.UserManagementView;
+            return View("Index3", users);
+        }
+
+
+        public ActionResult Edit(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            UserManagementView aspNetUsers = db.UserManagementView.Find(id);
+            if (aspNetUsers == null)
+            {
+                return HttpNotFound();
+            }
+            return View("EditUmng",aspNetUsers);
+        }
+
+
         [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
-            var role = (from r in appContext.Roles where r.Name.Contains("User") select r).FirstOrDefault();
-            var users = appContext.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role.Id)).ToList();
-
-            var userVM = users.Select(user => new Models.UserViewModel
-            {
-                Phone = user.PhoneNumber,
-                RoleName = "User"
-            }).ToList();
+            //var role = (from r in appContext.Roles where r.Name.Contains("User") select r).FirstOrDefault();
+            //var users = appContext.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role.Id)).ToList();
 
 
-            var role2 = (from r in appContext.Roles where r.Name.Contains("Admin") select r).FirstOrDefault();
-            var admins = appContext.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role2.Id)).ToList();
-            
+            //var userVM = users.Select(user => new Models.UserViewModel
+            //{
+            //    Id = user.Id,
+            //    FirstName = user.FirstName,
+            //    LastName = user.LastName,
+            //    Address = user.Address,
+            //    StreetNumber = user.StreetNumber,
+            //    City = user.City,
+            //    IDCountry = user.IDCountry,
+            //    Country = (transpContext.Country.Where(x => x.ID == user.IDCountry).Select(x => x.Name).FirstOrDefault().ToString() == null)?"": transpContext.Country.Where(x => x.ID == user.IDCountry).Select(x => x.Name).FirstOrDefault().ToString(),
+            //    Phone = user.PhoneNumber,
+            //    RoleName = "User",
+            //    Email = user.Email,
+            //    Active = user.Active
+            //}).ToList();
 
-            var adminVM = admins.Select(user => new Models.UserViewModel
-            {
-                Phone = user.PhoneNumber,
-                RoleName = "Admin"
-            }).ToList();
+            ////
+
+            //var role2 = (from r in appContext.Roles where r.Name.Contains("Admin") select r).FirstOrDefault();
+            //var admins = appContext.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role2.Id)).ToList();
+
+
+            //var adminVM = admins.Select(user => new Models.UserViewModel
+            //{
+            //    FirstName = user.FirstName,
+            //    LastName = user.LastName,
+            //    Address = user.Address,
+            //    StreetNumber = user.StreetNumber,
+            //    City = user.City,
+            //    IDCountry = user.IDCountry,
+            //    Country = (transpContext.Country.Where(x => x.ID == user.IDCountry).Select(x => x.Name).FirstOrDefault().ToString() == null) ? "" : transpContext.Country.Where(x => x.ID == user.IDCountry).Select(x => x.Name).FirstOrDefault().ToString(),
+            //    Phone = user.PhoneNumber,
+            //    RoleName = "Admin",
+            //    Email = user.Email,
+            //    Active = user.Active
+            //}).ToList();
 
 
 
 
-            var model = new Models.GroupedUserViewModel { Users = userVM, Admins = adminVM };
+            //var model = new Models.GroupedUserViewModel { Users = userVM, Admins = adminVM };
 
-            return View(model);
-
-
+            //return View(model);
 
 
-            using (var DBContext = new TransportLogEntities())
-            {
-                List<AspNetUsers> rolesList = DBContext.AspNetUsers.ToList();
+            return View();
 
-                ViewBag.Roles = new SelectList(DBContext.AspNetRoles.ToList(), "Id", "Name");
-
-                return View(rolesList);
-            }
         }
+        //public ActionResult Edit(string ID)
+        //{
+        //    {
+        //        var users = Transport.Models.AspNetUsers.where
+        //        ViewBag.IDCountry = new SelectList(transpContext.Country.ToList(), "ID", "Name");
+        //        return View();
+        //    }
+            
+        //}
     }
 }

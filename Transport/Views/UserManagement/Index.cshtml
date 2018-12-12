@@ -26,10 +26,19 @@
             Actions
         </th>
         <th>
-            User Name
+            Name
         </th>
         <th>
-            Email
+            Address
+        </th>
+        <th>
+            City
+        </th>
+        <th>
+            Country
+        </th>
+        <th>
+            Phone
         </th>
         <th>
             Role
@@ -40,17 +49,30 @@
         var i = 0;
         foreach (var user in Model.Users)
         {
-            <tr style="background-color:@(i%2 == 1 ? "grey;" : "white;")">
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = user.Id }, new { @class = "btn btn-default" })
-                </td>
-                <td>
-                    @user.Phone
-                </td>
-                <td>
-                    @user.RoleName
-                </td>
-            </tr>
+    <tr style="background-color:@(i%2 == 1 ? "grey;" : "white;")">
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = user.Id }, new { @class = "btn btn-default" })
+        </td>
+        <td>
+            @user.FirstName @user.LastName
+        </td>
+        <td>
+            @user.Address @user.StreetNumber
+        </td>
+        <td>
+            @user.City
+        </td>
+        <td>
+            @user.Country
+        </td>
+        <td>
+            @user.Phone
+        </td>
+        <td>
+            @user.RoleName
+        </td>
+        
+    </tr>
             i++;
         }
     }
@@ -58,17 +80,29 @@
         var j = 0;
         foreach (var user2 in Model.Admins)
         {
-            <tr style="background-color:@(j%2 == 1 ? "grey;" : "white;")">
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = user2.Id }, new { @class = "btn btn-default" })
-                </td>
-                <td>
-                    @user2.Phone
-                </td>
-                <td>
-                    @user2.RoleName
-                </td>
-            </tr>
+    <tr style="background-color:@(j%2 == 1 ? "grey;" : "white;")">
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = user2.Id }, new { @class = "btn btn-default" })
+        </td>
+        <td>
+            @user2.FirstName @user2.LastName
+        </td>
+        <td>
+            @user2.Address @user2.StreetNumber
+        </td>
+        <td>
+            @user2.City
+        </td>
+        <td>
+            @user2.Country
+        </td>
+        <td>
+            @user2.Phone
+        </td>
+        <td>
+            @user2.RoleName
+        </td>
+    </tr>
             j++;
         }
     }

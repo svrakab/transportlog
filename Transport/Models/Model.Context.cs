@@ -27,6 +27,7 @@ namespace Transport.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
@@ -38,6 +39,7 @@ namespace Transport.Models
         public virtual DbSet<Load> Load { get; set; }
         public virtual DbSet<LoadType> LoadType { get; set; }
         public virtual DbSet<Status> Status { get; set; }
+        public virtual DbSet<UserManagementView> UserManagementView { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
@@ -140,6 +142,19 @@ namespace Transport.Models
         public virtual int sp_upgraddiagrams()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
+        }
+    
+        public virtual int Role(string userID, string roleID)
+        {
+            var userIDParameter = userID != null ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(string));
+    
+            var roleIDParameter = roleID != null ?
+                new ObjectParameter("RoleID", roleID) :
+                new ObjectParameter("RoleID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Role", userIDParameter, roleIDParameter);
         }
     }
 }
