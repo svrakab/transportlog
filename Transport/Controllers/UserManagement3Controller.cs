@@ -51,17 +51,35 @@ namespace Transport.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,FirstName,LastName,Address,StreetNumber,City,IDCountry,Active")] AspNetUsers aspNetUsers)
+        public ActionResult Create([Bind(Include = "Id,Email,/*EmailConfirmed,PasswordHash,SecurityStamp,*/PhoneNumber,/*PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,*/UserName,FirstName,LastName,Address,StreetNumber,City,IDCountry,Active")] AspNetUsers aspNetUsers)
         {
             if (ModelState.IsValid)
             {
                 db.AspNetUsers.Add(aspNetUsers);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { success = true, aspNetUsers = aspNetUsers });
+                //return RedirectToAction("Index");
+            }
+            else
+            {
+                //var err = ModelState.Values.SelectMany(m => m.Errors)
+                //                 .Select(e => e.ErrorMessage)
+                //                 .ToList();
+
+                var errorList = ModelState.ToDictionary(
+                        kvp => kvp.Key,
+                        kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                    );
+
+                return Json(new
+                {
+                    success = false,
+                    error = errorList.Where(c => c.Value.Count() > 0)
+                });
             }
 
-            ViewBag.IDCountry = new SelectList(db.Country, "ID", "Name", aspNetUsers.IDCountry);
-            return View(aspNetUsers);
+            //ViewBag.IDCountry = new SelectList(db.Country, "ID", "Name", aspNetUsers.IDCountry);
+            //return View(aspNetUsers);
         }
 
         // GET: UserManagement3/Edit/5
