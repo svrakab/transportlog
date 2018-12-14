@@ -1,0 +1,31 @@
+﻿<script>
+    var load = getLoadById(ID);
+    var data = arguments[0];
+</script>
+<div id="popup">
+    @(Html.DevExtreme().Popup()
+                        .ID("load-popup")
+                        .ElementAttr("class", "popup")
+                        .Width(300)
+                        .Height(250)
+                        .Visible(false)
+                        .DragEnabled(false)
+                        .CloseOnOutsideClick(true)
+    )
+
+    <div class="loads">
+        @using (Html.DevExtreme().NamedTemplate("popup-template"))
+        {
+            <div class="movie-title">
+                Status: <%= load.Status.Name %>
+            </div>
+            <div>
+                Load Number: <%= load.LoadNumber %>
+            </div>
+            <div>
+                Customer: <%= load.Customer.FirstName %> <%= load.Customer.LastName %>
+            </div>
+        }
+
+    </div>
+</div>

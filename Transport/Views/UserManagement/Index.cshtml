@@ -1,78 +1,75 @@
 ﻿@model Transport.Models.GroupedUserViewModel
 
-@{
-    ViewBag.Title = "User Managment";
-}
-
-@Styles.Render("~/Content/css")
-
-
-
-<div class="">
-    <h3 class="col-md-6">Users List</h3>
-  
-    <div class="col-md-3">
-        @Html.ActionLink("Deleted...", "", new { }, new { @class = "btn btn-default btn-leftmargin btn-floatright" })
-    </div>
-    <div class="col-md-3">
-        @Html.ActionLink("Create New", "Create", new { }, new { @class = "btn btn-default btn-leftmargin btn-floatright" })
-    </div>
-</div>
-
-
-<table class="table">
-    <tr>
-        <th>
-            Actions
-        </th>
-        <th>
-            User Name
-        </th>
-        <th>
-            Email
-        </th>
-        <th>
-            Role
-        </th>
-    </tr>
-
     @{
-        var i = 0;
-        foreach (var user in Model.Users)
-        {
-            <tr style="background-color:@(i%2 == 1 ? "grey;" : "white;")">
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = user.Id }, new { @class = "btn btn-default" })
-                </td>
-                <td>
-                    @user.Phone
-                </td>
-                <td>
-                    @user.RoleName
-                </td>
-            </tr>
-            i++;
-        }
+        ViewBag.Title = "User Managment";
     }
-    @{
-        var j = 0;
-        foreach (var user2 in Model.Admins)
-        {
-            <tr style="background-color:@(j%2 == 1 ? "grey;" : "white;")">
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = user2.Id }, new { @class = "btn btn-default" })
-                </td>
-                <td>
-                    @user2.Phone
-                </td>
-                <td>
-                    @user2.RoleName
-                </td>
-            </tr>
-            j++;
+
+    @Styles.Render("~/Content/css")
+
+
+
+    <div class="">
+        <h3 class="col-md-6">Users List</h3>
+
+        <div class="col-md-3">
+            @Html.ActionLink("Deleted...", "", new { }, new { @class = "btn btn-default btn-leftmargin btn-floatright" })
+        </div>
+        <div class="col-md-3">
+            @Html.ActionLink("Create New", "Create", new { }, new { @class = "btn btn-default btn-leftmargin btn-floatright" })
+        </div>
+    </div>
+
+
+    <table class="table">
+        <tr>
+            <th>
+                Actions
+            </th>
+            <th>
+                Phone
+            </th>
+            <th>
+                Role
+            </th>
+        </tr>
+
+        @{
+            var i = 0;
+            foreach (var user in Model.Users)
+            {
+                <tr style="background-color:@(i%2 == 1 ? "grey;" : "white;")">
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = user.Id }, new { @class = "btn btn-default" })
+                    </td>
+                    <td>
+                        @user.AspNetRoles
+                    </td>
+                    <td>
+                        @user.Role
+                    </td>
+                </tr>
+                i++;
+            }
         }
-    }
-</table>
+        @{
+            var j = 0;
+            foreach (var user2 in Model.Admins)
+            {
+                <tr style="background-color:@(j%2 == 1 ? "grey;" : "white;")">
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = user2.Id }, new { @class = "btn btn-default" })
+                    </td>
+                    <td>
+                        @user2.Phone
+                    </td>
+                    <td>
+                        @user2.RoleName
+                    </td>
+                </tr>
+                j++;
+            }
+        }
+    </table>
 
 
 

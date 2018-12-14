@@ -72,6 +72,8 @@ h1 {
     margin:20px;
 }
 
-.dx-scheduler-cell-sizes-horizontal {
-    width: 100px;
+#btnhomecreate {
+    float: right;
+    margin: 10px;
+    margin-right: 50px;
 }

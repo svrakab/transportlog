@@ -1,0 +1,14 @@
+﻿<% var load = getLoadById(LoadNumber); %>
+
+<div class="showtime-preview">
+    <div>
+        Status: <br /><b><%= load.Status.Name %></b>
+    </div>
+    <div>
+        Load Number: <br /><b><%= load.LoadNumber %></b>
+    </div>
+    <div>
+        Customer: <br /><b><%= load.Customer.FirstName %><br /><%= load.Customer.LastName %></b>
+    </div>
+
+</div>

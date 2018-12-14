@@ -4,14 +4,21 @@
     ViewBag.Title = "User Managment";
 }
 
-
 @Styles.Render("~/Content/css")
 
 
 
-<p>
-    @Html.ActionLink("Create New", "Create", new { }, new { @class = "btn btn-default btn-leftmargin" })
-</p>
+<div class="">
+    <h3 class="col-md-6">Users List</h3>
+
+    <div class="col-md-3">
+        @Html.ActionLink("Deleted...", "", new { }, new { @class = "btn btn-default btn-leftmargin btn-floatright" })
+    </div>
+    <div class="col-md-3">
+        @Html.ActionLink("Create New", "Create", new { }, new { @class = "btn btn-default btn-leftmargin btn-floatright" })
+    </div>
+</div>
+
 
 <table class="table">
     <tr>
@@ -19,64 +26,54 @@
             Actions
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstName)
+            Phone
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Address)
+            Role
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IDCountry)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Active)
-        </th>
-        <th></th>
     </tr>
 
     @{
         var i = 0;
-        foreach (var item in Model)
+        foreach (var user in Model.Users)
         {
-
-    <tr style="background-color:@(i%2 == 1 ? "grey;" : "white;")">
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-default" })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IDCountry)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PhoneNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Active)
-        </td>
-    </tr>
+            <tr style="background-color:@(i%2 == 1 ? "grey;" : "white;")">
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = user.Id }, new { @class = "btn btn-default" })
+                </td>
+                <td>
+                    @user.Phone
+                </td>
+                <td>
+                    @user.RoleName
+                </td>
+            </tr>
             i++;
         }
     }
+    @{
+        var j = 0;
+        foreach (var user2 in Model.Admins)
+        {
+            <tr style="background-color:@(j%2 == 1 ? "grey;" : "white;")">
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = user2.Id }, new { @class = "btn btn-default" })
+                </td>
+                <td>
+                    @user2.Phone
+                </td>
+                <td>
+                    @user2.RoleName
+                </td>
+            </tr>
+            j++;
+        }
+    }
 </table>
+
+
+
+
 
 
 

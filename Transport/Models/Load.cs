@@ -14,7 +14,6 @@ namespace Transport.Models
     
     public partial class Load
     {
-        public int ID { get; set; }
         public int LoadNumber { get; set; }
         public int NumberOfPallets { get; set; }
         public System.DateTime PlannedTime { get; set; }

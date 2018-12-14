@@ -219,7 +219,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
-    <Compile Include="Controllers\UserManagement2Controller.cs" />
     <Compile Include="Controllers\UserManagementController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -256,6 +255,7 @@
     <Compile Include="Models\LoadType.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GroupHomeViewModel.cs" />
     <Compile Include="Models\LoadViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Model.Context.cs">
@@ -281,6 +281,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Status.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -393,6 +396,7 @@
     <Content Include="Scripts\globalize\message.min.js" />
     <Content Include="Scripts\globalize\number.js" />
     <Content Include="Scripts\globalize\number.min.js" />
+    <Content Include="Scripts\home.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -483,6 +487,14 @@
     <Content Include="Views\Shared\_LayoutHome.cshtml" />
     <Content Include="Views\Home\_ToolTip.cshtml" />
     <Content Include="Views\UserManagement\Index.cshtml" />
+    <Content Include="tsconfig.json" />
+    <Content Include="Views\Home\_AppointmentTemplate.cshtml" />
+    <Content Include="Views\Home\_PopUp.cshtml" />
+    <Content Include="Views\UserManagement\Create.cshtml" />
+    <Content Include="Views\UserManagement\Delete.cshtml" />
+    <Content Include="Views\UserManagement\Details.cshtml" />
+    <Content Include="Views\UserManagement\Edit.cshtml" />
+    <Content Include="Views\Home\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

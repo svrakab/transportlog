@@ -1,4 +1,4 @@
-﻿@model Transport.Models.LoadViewModel
+﻿@model Transport.Models.GroupHomeViewModel
 
 @{
     ViewBag.Title = "Home";
@@ -9,38 +9,279 @@
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
 }
 
-@(Html.DevExtreme().Scheduler()
-        .ID("scheduler")
-        .DataSource(Model.LoadList)
-        .TextExpr("LoadNumber")
-        .StartDateExpr("PlannedTime")
-        .EndDateExpr("DepartureTime")
-        .Views(views =>
-        {
-            views.Add()
-                .Name("Day")
-                .Type(SchedulerViewType.Day)
-                .GroupOrientation(Orientation.Horizontal)
-                .CellDuration(60);
+@Html.Partial("_PopUp")
 
-        })
-        .CurrentView(SchedulerViewType.Day)
-        .Groups(new string[] { "IDDocks" })
-        .Resources(res =>
-        {
-            res.Add()
-                .FieldExpr("IDDocks")
-                .ValueExpr("ID")
-                .DisplayExpr("Name")
-                .AllowMultiple(true)
-                .Label("Name")
-                .DataSource(Model.DockList);
-        })
-        .CrossScrollingEnabled(false)
-        .CurrentDate(new DateTime(2018, 5, 12))
-        .StartDayHour(0)
-        .ShowCurrentTimeIndicator(true)
-        .ShowAllDayPanel(false)
-        .EndDayHour(24)
-        .ShowCurrentTimeIndicator(true)
+
+@(Html.DevExtreme().Scheduler()
+                                .ID("scheduler")
+                                .DataSource(Model.LoadList)
+                                .TextExpr("LoadNumber")
+                                .StartDateExpr("PlannedTime")
+                                .EndDateExpr("DepartureTime")
+                                .Editing(e => e.AllowAdding(false))
+                                .Editing(e => e.AllowDragging(false))
+                                .Editing(e => e.AllowResizing(false))
+                                .Views(views =>
+                                {
+                                    views.Add()
+                                        .Name("Day")
+                                        .Type(SchedulerViewType.Day)
+                                        .GroupOrientation(Orientation.Horizontal)
+                                        .CellDuration(60);
+
+                                })
+                                .CurrentView(SchedulerViewType.Day)
+                                .Groups(new string[] { "IDDocks" })
+                                .Resources(res =>
+                                {
+                                    res.Add()
+                                        .FieldExpr("IDDocks")
+                                        .ValueExpr("ID")
+                                        .DisplayExpr("Name")
+                                        .AllowMultiple(true)
+                                        .Label("Name")
+                                        .DataSource(Model.DockList);
+                                })
+                                .CrossScrollingEnabled(false)
+                                .CurrentDate(new DateTime(2018, 5, 12))
+                                .StartDayHour(0)
+                                .ShowCurrentTimeIndicator(true)
+                                .ShowAllDayPanel(false)
+                                .EndDayHour(24)
+                                .ShowCurrentTimeIndicator(true)
+                                .OnAppointmentFormCreated("appointmentForm_created")
+                                .AppointmentTooltipTemplate(@<text>
+                                    @(Html.Partial("_ToolTip"))
+                                </text>)
+                                                .AppointmentTemplate(@<text>
+                                                    @(Html.Partial("_AppointmentTemplate"))
+                                                </text>)
+                                                                //.OnAppointmentDblClick("showInfo")
+                                                                //.OnAppointmentAdded("appointment_added")
+                                                                .OnAppointmentUpdated("appointment_updated")
+
+
+
 )
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { }, new { @class = "btn btn-default",@id="btnhomecreate" })
+</p>
+
+<script>
+    $(document).ready(function () {
+        $("#btnhomecreate").appendTo(".dx-scheduler-header.dx-widget");
+    });
+</script>
+
+<script>
+
+    
+
+    var loadsData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.LoadList));
+
+    function getSchedulerInstance() {
+        return $("#scheduler").dxScheduler("instance");
+    }
+
+    function getLoadById(id) {
+        return DevExpress.data.query(loadsData)
+                .filter("LoadNumber", id)
+                .toArray()[0]
+    }
+
+    function appointmentForm_created(data) {
+
+        var form = data.form,
+            load = getLoadById(data.appointmentData.LoadNumber) || {};
+
+        form.option("items", [{
+
+            label: {
+                text: "Load Number"
+            },
+            editorType: "dxTextBox",
+            dataField: "LoadNumber",
+            editorOptions: {
+                value: load.LoadNumber,
+                readOnly: true
+            }
+            ,
+        },
+            {
+            label: {
+                text: "Status"
+            },
+            name: "Status",
+            editorType: "dxTextBox",
+            editorOptions: {
+                value: load.Status.Name,
+                readOnly: true
+            }
+            }
+            ,
+            {
+            label: {
+                text: "Customer"
+            },
+            name: "Customer",
+            editorType: "dxTextBox",
+                editorOptions: {
+                    value: load.Customer.FirstName + " " + load.Customer.LastName,
+                readOnly: true
+            }
+        },
+            {
+            label: {
+                text: "Dock"
+            },
+            name: "Dock",
+            editorType: "dxTextBox",
+            editorOptions: {
+                value: load.Dock.Name,
+                readOnly: true
+            }
+        },
+            {
+            label: {
+                text: "No Pallets"
+            },
+            name: "NumberOfPallets",
+            editorType: "dxTextBox",
+            editorOptions: {
+                value: load.NumberOfPallets,
+                readOnly: true
+            }
+        },
+            {
+            label: {
+                text: "Load Type"
+            },
+            name: "IDLoadType",
+            editorType: "dxTextBox",
+            editorOptions: {
+                value: load.LoadType.Name,
+            readOnly: true
+            }
+        }
+            ,
+        {
+            label: {
+                text: "Arrival Time"
+            },
+            name: "ArrivalTime",
+            dataField: "ArrivalTime",
+            editorType: "dxDateBox",
+            editorOptions: {
+                value: load.ArivalTime,
+                width: "100%",
+                type: "datetime",
+                readOnly: false
+            }
+        }
+            ,
+        {
+            label: {
+                text: "Dock On"
+            },
+            name: "DockOn",
+            dataField: "DockOn",
+            editorType: "dxDateBox",
+            editorOptions: {
+                value: load.DockOn,
+                width: "100%",
+                type: "datetime",
+                readOnly: false
+            }
+        }
+            ,
+        {
+            label: {
+                text: "Dock Off"
+            },
+            name: "DockOff",
+            dataField: "DockOff",
+            editorType: "dxDateBox",
+            editorOptions: {
+                value: load.DockOff,
+                width: "100%",
+                type: "datetime",
+                readOnly: false
+            }
+            }
+
+        ]);
+    }
+
+
+    function appointment_updated(data) {
+        //send data of arrival time, dock on and dock off
+
+        $('#saveBtnCreate').click(function () {
+            var numberOfPallets = ($("[input$='LoadNumber']").val());
+            var arivalTime = ($("[input$='ArivalTime']").val());
+            var dockOn = ($("[input$='DockOn']").val());
+            var dockOff = ($("[input$='DockOff']").val());
+            var idStatus = ($("[input$='loadNumber']").val());
+            var idLoadType = ($("[input$='IDStatus']").val());
+            var idCustomers = ($("[input$='IDCustomers']").val());
+            var idDocks = ($("[input$='IDDocks']").val());
+
+
+            console.log(numberOfPallets, plannedTime, arivalTime, dockOn, dockOff, departureTime, idStatus, idLoadType, idCustomers, idDocks);
+
+            $.ajax({
+                url: '/Home/Edit',
+                type: 'POST',
+                data: {
+                    NumberOfPallets: numberOfPallets,
+                    ArivalTime: arivalTime,
+                    DockOn: dockOn,
+                    DockOff: dockOff,
+                    IDStatus: idStatus,
+                    IDLoadType: idLoadType,
+                    IDCustomers: idCustomers,
+                    IDDocks: idDocks
+                },
+
+                success: function (data, status, xhr) {
+
+                    if (data.success) {
+                        alert("Done")
+                        location.href = "/Home/Index";
+                    } else {
+                        console.log(data);
+                        debugger;
+
+                        for (var err of data.error) {
+                            var field = err.Key;
+                            var errField = $('[data-valmsg-for="' + field + '"]')
+                            errField.html(err.Value.join("<br>"));
+                        }
+                    }
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+                    alert(errorMessage);
+                }
+            });
+
+        });
+
+    }
+    
+</script>
+
+
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        $('#mybutton').one('click', function () {
+            var r = $('<input/>').attr({
+                type: "button",
+                id: "field",
+                value: 'new'
+            });
+            $(".dx-scheduler-header .dx-widget").append(r);
+        })
+    })
+</script>

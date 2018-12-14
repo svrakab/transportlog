@@ -15,7 +15,7 @@ namespace Transport.Controllers
 
         public ActionResult Index()
         {
-            Models.LoadViewModel model = new Models.LoadViewModel();
+            Models.GroupHomeViewModel model = new Models.GroupHomeViewModel();
 
             List<Models.Load> loadList = transpContext.Load.ToList();
             List<Models.Dock> dockList = transpContext.Dock.ToList();
@@ -26,8 +26,98 @@ namespace Transport.Controllers
             return View(model);
         }
 
+        public ActionResult Create()
+        {
+            using (var DBContext = new TransportLogEntities())
+            {
+                ViewBag.StatusList = new SelectList(DBContext.Status.ToList(), "ID", "Name");
+
+                ViewBag.CustomerList = new SelectList(DBContext.Customer.ToList(), "ID", "FirstName");
+
+                ViewBag.DockList = new SelectList(DBContext.Dock.ToList(), "ID", "Name");
+
+                ViewBag.LoadTypeList = new SelectList(DBContext.LoadType.ToList(), "ID", "Name");
+
+
+                return View();
+            }
+        }
+
         [HttpPost]
-        public ActionResult Index(LoadViewModel model)
+        public JsonResult Create(Load load)
+        {
+            using (var DBContext = new TransportLogEntities())
+            {
+                if (ModelState.IsValid)
+                {
+
+
+                    DBContext.Load.Add(load);
+                    DBContext.SaveChanges();
+
+                    return Json(new { success = true, artikli = load });
+
+                }
+                else
+                {
+                    var errorList = ModelState.ToDictionary(
+                            kvp => kvp.Key,
+                            kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                );
+                    return Json(new
+                    {
+                        success = false,
+                        error = errorList.Where(c => c.Value.Count() > 0)
+                    });
+                }
+            }
+        }
+
+
+        [HttpPost]
+        public JsonResult Edit(Load load)
+        {
+
+
+            using (var DBContext = new TransportLogEntities())
+            {
+                if (ModelState.IsValid)
+                {
+                    var loadN = DBContext.Load.Where(x => x.LoadNumber == load.LoadNumber).FirstOrDefault();
+                    if (loadN != null)
+                    {
+                        loadN.ArivalTime = load.ArivalTime;
+                        loadN.DockOn = load.DockOn;
+                        loadN.DockOff = load.DockOff;
+                    }
+                    DBContext.SaveChanges();
+
+                    return Json(new { success = true, artikli = load });
+                    
+                }
+                else
+                {
+                    var errorList = ModelState.ToDictionary(
+                            kvp => kvp.Key,
+                            kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                );
+                    return Json(new
+                    {
+                        success = false,
+                        error = errorList.Where(c => c.Value.Count() > 0)
+                    });
+                }
+            }
+        }
+
+
+    
+    
+       
+
+
+        [HttpPost]
+        public ActionResult Index(GroupHomeViewModel model)
         {
 
             return View();

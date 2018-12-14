@@ -21,6 +21,9 @@ namespace Transport.Controllers
         {
             var role = (from r in appContext.Roles where r.Name.Contains("User") select r).FirstOrDefault();
             var users = appContext.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role.Id)).ToList();
+            List<AspNetUsers> usersss = transpContext.AspNetUsers.ToList();
+
+            
 
             var userVM = users.Select(user => new Models.UserViewModel
             {
@@ -31,7 +34,7 @@ namespace Transport.Controllers
 
             var role2 = (from r in appContext.Roles where r.Name.Contains("Admin") select r).FirstOrDefault();
             var admins = appContext.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role2.Id)).ToList();
-            
+
 
             var adminVM = admins.Select(user => new Models.UserViewModel
             {
@@ -44,19 +47,19 @@ namespace Transport.Controllers
 
             var model = new Models.GroupedUserViewModel { Users = userVM, Admins = adminVM };
 
-            return View(model);
+            return View(usersss);
 
 
 
 
-            using (var DBContext = new TransportLogEntities())
-            {
-                List<AspNetUsers> rolesList = DBContext.AspNetUsers.ToList();
+            //using (var DBContext = new TransportLogEntities())
+            //{
+            //    List<AspNetUsers> rolesList = DBContext.AspNetUsers.ToList();
 
-                ViewBag.Roles = new SelectList(DBContext.AspNetRoles.ToList(), "Id", "Name");
+            //    ViewBag.Roles = new SelectList(DBContext.AspNetRoles.ToList(), "Id", "Name");
 
-                return View(rolesList);
-            }
+            //    return View(rolesList);
+            //}
         }
     }
 }

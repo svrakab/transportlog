@@ -1,18 +1,18 @@
 ﻿<%
-var movie = getMovieById(MovieId);
+var load = getLoadById(LoadNumber);
 var data = arguments[0];
+
 %>
 <div class="movie-tooltip">
-    <img src="<%= movie.Image %>" alt="" />
     <div class="movie-info">
         <div class="movie-title">
-            <%= movie.Text %> (<%= movie.Year %>)
+            Status: <%= load.Status.Name %>
         </div>
         <div>
-            Director <%= movie.Director %>
+            Load Number: <%= load.LoadNumber %>
         </div>
         <div>
-            Duration <%= movie.Duration %> minutes
+            Customer: <%= load.Customer.FirstName %> <%= load.Customer.LastName %>
         </div>
     </div>
     <br />
