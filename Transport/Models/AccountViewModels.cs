@@ -64,10 +64,10 @@ namespace Transport.Models
 
     public class RegisterViewModel
     {
-        [Display(Name = "FName")]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [Display(Name = "LName")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         [Display(Name = "Address")]

@@ -142,8 +142,7 @@ namespace Transport.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
-                                                        .ToList(), "Name", "Name");
+            ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
             return View();
         }
 
@@ -172,8 +171,7 @@ namespace Transport.Controllers
                     //Ends Here    
                     return RedirectToAction("Index", "UserManagement");
                 }
-                ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
-                                          .ToList(), "Name", "Name");
+                ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
                 AddErrors(result);
             }
 

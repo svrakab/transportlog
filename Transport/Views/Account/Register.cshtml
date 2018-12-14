@@ -32,15 +32,15 @@
     <div class="form-group">
         @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.PasswordFor(m => m.UserName, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.UserRoles, new { @class = "col-md-2 control-label" })
+    <div class="form-group">  
+        @Html.Label("user Role", new { @class = "col-md-2 control-label" })  
         <div class="col-md-10">
-            @Html.PasswordFor(m => m.UserRoles, new { @class = "form-control" })
-        </div>
-    </div>
+            @Html.DropDownList("UserRoles", (SelectList)ViewBag.Name, " ")
+        </div>  
+    </div> 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-default" value="Register" />

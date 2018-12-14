@@ -13,11 +13,11 @@ namespace Transport.Controllers
 {
     public class UserManagementController : Controller
     {
-        Models.ApplicationDbContext appContext = new Models.ApplicationDbContext();
-        Models.TransportLogEntities transpContext = new Models.TransportLogEntities();
+        ApplicationDbContext appContext = new ApplicationDbContext();
+        TransportLogEntities transpContext = new TransportLogEntities();
 
         // GET: UserManagement
-        private TransportLogEntities db = new TransportLogEntities();
+        //private TransportLogEntities db = new TransportLogEntities();
 
         [Authorize(Roles = "Admin")]
         public ActionResult Index()
@@ -50,6 +50,7 @@ namespace Transport.Controllers
 
             var adminVM = admins.Select(user => new Models.UserViewModel
             {
+                Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Address = user.Address,
@@ -71,14 +72,103 @@ namespace Transport.Controllers
             return View(model);
 
         }
-        //public ActionResult Edit(string ID)
+        //// GET: Users/Edit/5
+
+        //public ActionResult Edit(string id)
+
         //{
+
+        //    if (id == null)
+
         //    {
-        //        var users = Transport.Models.AspNetUsers.where
-        //        ViewBag.IDCountry = new SelectList(transpContext.Country.ToList(), "ID", "Name");
-        //        return View();
+
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
         //    }
 
+        //    var aspUsers = transpContext.AspNetUsers.Where(x => x.Id == id).FirstOrDefault();
+
+        //    ViewBag.IDCountry = new SelectList(transpContext.Country.ToList(), "ID", "Name", aspUsers.IDCountry);
+
+        //    ViewBag.Name = new SelectList(appContext.Roles.ToList(), "Name", "Name", aspUsers.AspNetRoles);
+
+        //    return View(aspUsers);
+
         //}
+
+        //// POST: Users/Edit/5
+
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+
+        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
+        //[HttpPost]
+
+        //[ValidateAntiForgeryToken]
+
+        //public ActionResult Edit(AspNetUsers AsNeUs)
+
+        //{
+
+        //    if (ModelState.IsValid)
+
+        //    {
+
+        //        var aspUsers = transpContext.AspNetUsers.Where(x => x.Id == AsNeUs.Id).FirstOrDefault();
+
+        //        if (aspUsers != null)
+
+        //        {
+
+        //            aspUsers = AsNeUs;
+
+        //        }
+
+        //        transpContext.SaveChanges();
+
+        //        return RedirectToAction("Index");
+
+        //    }
+
+        //    return View(AsNeUs);
+
+        //}
+
+        // GET: UserManagement3/Edit/5
+        public ActionResult Edit(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var aspUsers = transpContext.AspNetUsers.Find(id);
+            if (aspUsers == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.IDCountry = new SelectList(transpContext.Country, "ID", "Name", aspUsers.IDCountry);
+            ViewBag.Name = new SelectList(transpContext.AspNetRoles, "Id", "Name", aspUsers.AspNetRoles);
+            //var role3 = (from r in appContext.Roles where r.Name.Contains("User") select r).FirstOrDefault();
+            //ViewBag.Name = new SelectList(appContext.Roles, appContext.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role3.Id))).ToList();
+            return View(aspUsers);
+        }
+
+        // POST: UserManagement3/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(AspNetUsers aspUsers)
+        {
+            if (ModelState.IsValid)
+            {
+                transpContext.Entry(aspUsers).State = EntityState.Modified;
+                transpContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.IDCountry = new SelectList(transpContext.Country, "ID", "Name", aspUsers.IDCountry);
+            ViewBag.Name = new SelectList(transpContext.AspNetRoles, "Id", "Name", aspUsers.AspNetRoles);
+            return View(aspUsers);
+        }
     }
 }
