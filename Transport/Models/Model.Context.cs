@@ -27,7 +27,6 @@ namespace Transport.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
@@ -39,7 +38,7 @@ namespace Transport.Models
         public virtual DbSet<Load> Load { get; set; }
         public virtual DbSet<LoadType> LoadType { get; set; }
         public virtual DbSet<Status> Status { get; set; }
-        public virtual DbSet<UserManagementView> UserManagementView { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

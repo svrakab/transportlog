@@ -150,24 +150,6 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TransportLog.dbo.UserManagementView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="UserManagementView">
-          <Key>
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Roles" />
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
-          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
-          <Property Name="Address" Type="nvarchar" MaxLength="50" />
-          <Property Name="StreetNumber" Type="nvarchar" MaxLength="50" />
-          <Property Name="City" Type="nvarchar" MaxLength="50" />
-          <Property Name="Active" Type="bit" />
-          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Roles" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
-        </EntityType>
         <Association Name="FK_AspNetUsers_Country">
           <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
@@ -296,10 +278,6 @@ warning 6002: The table/view 'TransportLog.dbo.UserManagementView' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="Role" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="UserID" Type="nvarchar" Mode="In" />
-          <Parameter Name="RoleID" Type="nvarchar" Mode="In" />
-        </Function>
         <EntityContainer Name="TransportLogModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -314,19 +292,6 @@ warning 6002: The table/view 'TransportLog.dbo.UserManagementView' does not have
           <EntitySet Name="LoadType" EntityType="Self.LoadType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="UserManagementView" EntityType="Self.UserManagementView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [UserManagementView].[FirstName] AS [FirstName], 
-    [UserManagementView].[LastName] AS [LastName], 
-    [UserManagementView].[Address] AS [Address], 
-    [UserManagementView].[StreetNumber] AS [StreetNumber], 
-    [UserManagementView].[City] AS [City], 
-    [UserManagementView].[Active] AS [Active], 
-    [UserManagementView].[Name] AS [Name], 
-    [UserManagementView].[Roles] AS [Roles], 
-    [UserManagementView].[Id] AS [Id]
-    FROM [dbo].[UserManagementView] AS [UserManagementView]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_AspNetUsers_Country" Association="Self.FK_AspNetUsers_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -403,7 +368,10 @@ warning 6002: The table/view 'TransportLog.dbo.UserManagementView' does not have
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
-          <EntitySet Name="sysdiagrams" EntityType="TransportLogModel.sysdiagrams" />
+          <FunctionImport Name="Role">
+            <Parameter Name="UserID" Mode="In" Type="String" />
+            <Parameter Name="RoleID" Mode="In" Type="String" />
+          </FunctionImport>
           <EntitySet Name="C__MigrationHistory" EntityType="TransportLogModel.C__MigrationHistory" />
           <EntitySet Name="AspNetRoles" EntityType="TransportLogModel.AspNetRoles" />
           <EntitySet Name="AspNetUserClaims" EntityType="TransportLogModel.AspNetUserClaims" />
@@ -415,6 +383,7 @@ warning 6002: The table/view 'TransportLog.dbo.UserManagementView' does not have
           <EntitySet Name="Load" EntityType="TransportLogModel.Load" />
           <EntitySet Name="LoadType" EntityType="TransportLogModel.LoadType" />
           <EntitySet Name="Status" EntityType="TransportLogModel.Status" />
+          <EntitySet Name="sysdiagrams" EntityType="TransportLogModel.sysdiagrams" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="TransportLogModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -451,11 +420,6 @@ warning 6002: The table/view 'TransportLog.dbo.UserManagementView' does not have
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <EntitySet Name="UserManagementView" EntityType="TransportLogModel.UserManagementView" />
-          <FunctionImport Name="Role">
-            <Parameter Name="UserID" Mode="In" Type="String" />
-            <Parameter Name="RoleID" Mode="In" Type="String" />
-          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -468,16 +432,6 @@ warning 6002: The table/view 'TransportLog.dbo.UserManagementView' does not have
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="C__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -623,6 +577,16 @@ warning 6002: The table/view 'TransportLog.dbo.UserManagementView' does not have
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Load" Relationship="TransportLogModel.FK_Load_Status" FromRole="Status" ToRole="Load" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="TransportLogModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -727,39 +691,12 @@ warning 6002: The table/view 'TransportLog.dbo.UserManagementView' does not have
           <End Type="TransportLogModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
           <End Type="TransportLogModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
         </Association>
-        <EntityType Name="UserManagementView">
-          <Key>
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Roles" />
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StreetNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Active" Type="Boolean" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Roles" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-        </EntityType>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="TransportLogModelStoreContainer" CdmEntityContainer="TransportLogEntities">
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="TransportLogModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="C__MigrationHistory">
             <EntityTypeMapping TypeName="TransportLogModel.C__MigrationHistory">
               <MappingFragment StoreEntitySet="__MigrationHistory">
@@ -895,6 +832,17 @@ warning 6002: The table/view 'TransportLog.dbo.UserManagementView' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="TransportLogModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <AssociationSetMapping Name="AspNetUserRoles" TypeName="TransportLogModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
             <EndProperty Name="AspNetUsers">
               <ScalarProperty Name="Id" ColumnName="UserId" />
@@ -903,22 +851,6 @@ warning 6002: The table/view 'TransportLog.dbo.UserManagementView' does not have
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="UserManagementView">
-            <EntityTypeMapping TypeName="TransportLogModel.UserManagementView">
-              <MappingFragment StoreEntitySet="UserManagementView">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Roles" ColumnName="Roles" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="StreetNumber" ColumnName="StreetNumber" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="Role" FunctionName="TransportLogModel.Store.Role" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
