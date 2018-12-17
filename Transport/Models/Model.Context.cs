@@ -156,5 +156,7 @@ namespace Transport.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Role", userIDParameter, roleIDParameter);
         }
+
+        public System.Data.Entity.DbSet<Transport.Models.UserViewModel> UserViewModels { get; set; }
     }
 }

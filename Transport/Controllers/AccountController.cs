@@ -170,7 +170,10 @@ namespace Transport.Controllers
                     await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
                     //Ends Here    
                     return RedirectToAction("Index", "UserManagement");
+
+                    //UserManager.AddToRole(userId, role)
                 }
+
                 ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
                 AddErrors(result);
             }
