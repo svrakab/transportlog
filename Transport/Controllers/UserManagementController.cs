@@ -79,6 +79,8 @@ namespace Transport.Controllers
 
         }
 
+            var role = (from r in appContext.Roles where r.Name.Contains("User") select r).FirstOrDefault();
+            var users = appContext.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role.Id)).ToList();
 
         public ActionResult Edit(string id)
 
