@@ -19,10 +19,12 @@ namespace Transport.Controllers
         private ApplicationUserManager _userManager;
 
         ApplicationDbContext context;
+        TransportLogEntities transpContext;
 
         public AccountController()
         {
             context = new ApplicationDbContext();
+            transpContext = new TransportLogEntities();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -142,6 +144,7 @@ namespace Transport.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.Country = new SelectList(transpContext.Country.ToList(), "ID", "Name");
             ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
             return View();
         }
@@ -173,7 +176,7 @@ namespace Transport.Controllers
 
                     //UserManager.AddToRole(userId, role)
                 }
-
+                ViewBag.Country = new SelectList(transpContext.Country.ToList(), "ID", "Name");
                 ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
                 AddErrors(result);
             }

@@ -214,6 +214,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AspNetUsersController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DockController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -281,12 +282,6 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Status.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagrams.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\UserManagementView.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserViewModel.cs" />
@@ -490,12 +485,12 @@
     <Content Include="Views\Shared\_LayoutHome.cshtml" />
     <Content Include="Views\Home\_ToolTip.cshtml" />
     <Content Include="Views\UserManagement\Index.cshtml" />
-    <Content Include="Views\UserManagement3\Create.cshtml" />
-    <Content Include="Views\UserManagement3\Delete.cshtml" />
-    <Content Include="Views\UserManagement3\Details.cshtml" />
-    <Content Include="Views\UserManagement3\Edit.cshtml" />
-    <Content Include="Views\UserManagement3\Index.cshtml" />
     <Content Include="Views\UserManagement\Edit.cshtml" />
+    <Content Include="Views\AspNetUsers\Create.cshtml" />
+    <Content Include="Views\AspNetUsers\Delete.cshtml" />
+    <Content Include="Views\AspNetUsers\Details.cshtml" />
+    <Content Include="Views\AspNetUsers\Edit.cshtml" />
+    <Content Include="Views\AspNetUsers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

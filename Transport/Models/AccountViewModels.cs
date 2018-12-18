@@ -72,12 +72,15 @@ namespace Transport.Models
 
         [Display(Name = "Address")]
         public string Address { get; set; }
-        
+
+        [Display(Name = "Street Number")]
+        public string StreetNumber { get; set; }
+
         [Display(Name = "City")]
         public string City { get; set; }
 
         [Display(Name = "Country")]
-        public string Country { get; set; }
+        public string IDCountry { get; set; }
 
         [Display(Name = "Phone")]
         public string PhoneNumber { get; set; }
@@ -94,6 +97,9 @@ namespace Transport.Models
         [Required]
         [Display(Name = "UserName")]
         public string UserName { get; set; }
+
+        [Display(Name = "Status")]
+        public bool Active { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

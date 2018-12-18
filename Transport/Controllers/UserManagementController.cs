@@ -20,19 +20,11 @@ namespace Transport.Controllers
         TransportLogEntities transpContext = new TransportLogEntities();
 
         // GET: UserManagement
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
 
         public ActionResult Index()
 
         {
-
-            //var usersWithRoles = (from user in transpContext.AspNetUsers
-
-            //                          //from userRole in user.AspNetRoles
-
-            //                      join role in transpContext.AspNetRoles on user.Id equals
-
-            //                      role.Id
             var usersWithRoles = (from user in transpContext.AspNetUsers
 
                                   from userRole in user.AspNetRoles
@@ -57,15 +49,11 @@ namespace Transport.Controllers
 
                                       City = user.City,
 
-                                      //IDCountry = user.IDCountry,
-
-                                      Country = user.Country.Name,
+                                      Country = user.Country.Name, 
 
                                       Phone = user.PhoneNumber,
 
                                       RoleName = role.Name,
-
-                                      RoleID = role.Id,
 
                                       Username = user.UserName,
 
@@ -79,8 +67,6 @@ namespace Transport.Controllers
 
         }
 
-            var role = (from r in appContext.Roles where r.Name.Contains("User") select r).FirstOrDefault();
-            var users = appContext.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role.Id)).ToList();
 
         public ActionResult Edit(string id)
 
@@ -112,8 +98,6 @@ namespace Transport.Controllers
 
                                       IDCountry = user.IDCountry,
 
-                                      Country = user.Country.Name,
-
                                       Phone = user.PhoneNumber,
 
                                       RoleName = role.Name,
@@ -133,8 +117,8 @@ namespace Transport.Controllers
                 return HttpNotFound();
 
             }
-            ViewBag.IDCountry = new SelectList(transpContext.Country, "ID", "Name", usersWithRoles.IDCountry);
-            ViewBag.Name = new SelectList(transpContext.AspNetRoles, "Id", "Name", usersWithRoles.RoleName);
+            ViewBag.Country = new SelectList(transpContext.Country.ToList(), "ID", "Name");
+            ViewBag.Roles = new SelectList(transpContext.AspNetRoles.ToList(), "Name", "Name");
             return View(usersWithRoles);
 
         }
@@ -152,21 +136,13 @@ namespace Transport.Controllers
                 dataModel.Address = users.Address;
                 dataModel.StreetNumber = users.StreetNumber;
                 dataModel.City = users.City;
-                //dataModel.Country = users.Country.Name;
+                dataModel.IDCountry = users.IDCountry;
                 dataModel.PhoneNumber = users.Phone;
                 dataModel.UserName = users.Username;
                 dataModel.Email = users.Email;
                 dataModel.Active = users.Active;
 
-                //var userRoles = Roles.GetAllRoles();
-                //foreach(var role in userRoles)
-                //   Roles.RemoveUserFromRole(users.Username,role);
-
-
-                //Roles.AddUserToRole(users.Username, users.RoleName);
-
-
-               var userManager= HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                var userManager= HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
                  
                 var userRoles = await userManager.GetRolesAsync(users.ID);
                 await userManager.RemoveFromRolesAsync(users.ID, userRoles.ToArray());
@@ -178,42 +154,5 @@ namespace Transport.Controllers
             return View();
         }
 
-
-        //GET: UserManagement3/Edit/5
-        //public ActionResult Edit(string id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    var aspUsers = transpContext.AspNetUsers.Find(id);
-        //    if (aspUsers == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    ViewBag.IDCountry = new SelectList(transpContext.Country, "ID", "Name", aspUsers.IDCountry);
-        //    ViewBag.RoleId = new SelectList(transpContext.AspNetRoles, "UserId", "RoleId", aspUsers.AspNetRoles);
-        //    //var role3 = (from r in appContext.Roles where r.Name.Contains("User") select r).FirstOrDefault();
-        //    //ViewBag.Name = new SelectList(appContext.Roles, appContext.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role3.Id))).ToList();
-        //    return View(aspUsers);
-        //}
-
-        //// POST: UserManagement3/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(AspNetUsers aspUsers)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        transpContext.Entry(aspUsers).State = EntityState.Modified;
-        //        transpContext.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    ViewBag.IDCountry = new SelectList(transpContext.Country, "ID", "Name", aspUsers.IDCountry);
-        //    ViewBag.Name = new SelectList(transpContext.AspNetRoles, "Id", "Name", aspUsers.AspNetRoles);
-        //    return View(aspUsers);
-        //}
     }
 }

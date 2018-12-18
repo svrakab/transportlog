@@ -9,7 +9,7 @@
 //    //public class UserManagement2Controller : Controller
 //    //{
 //        //Models.ApplicationDbContext context = new Models.ApplicationDbContext();
-        
+
 //        //// GET: UserManagement2
 //        //public ActionResult Index()
 //        //{
@@ -37,7 +37,13 @@
 
 //            //var model = new Models.GroupedUserViewModel { Users = userVM, Admins = adminVM };
 ////            return View(/*model*/);
-            
+
 ////        }
 ////    }
 ////}
+/////var userRoles = Roles.GetAllRoles();
+//foreach(var role in userRoles)
+//   Roles.RemoveUserFromRole(users.Username,role);
+
+
+//Roles.AddUserToRole(users.Username, users.RoleName);
