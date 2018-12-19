@@ -80,7 +80,7 @@ namespace Transport.Models
         public string City { get; set; }
 
         [Display(Name = "Country")]
-        public string IDCountry { get; set; }
+        public int ? IDCountry { get; set; }
 
         [Display(Name = "Phone")]
         public string PhoneNumber { get; set; }

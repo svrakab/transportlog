@@ -61,9 +61,9 @@ namespace Transport.Controllers
 
                                       Active = user.Active.Value
 
-                                  }).ToList();
+                                  }).Where(x => x.Active == true);
 
-            return View(usersWithRoles);
+            return View(usersWithRoles.ToList());
 
         }
 
@@ -154,5 +154,50 @@ namespace Transport.Controllers
             return View();
         }
 
+        // GET: AspNetUsers/Delete/5
+        public ActionResult Deleted(string id)
+        {
+            var usersWithRoles = (from user in transpContext.AspNetUsers
+
+                                  from userRole in user.AspNetRoles
+
+                                  join role in transpContext.AspNetRoles on userRole.Id equals
+
+                                  role.Id
+
+                                  select new UserViewModel()
+
+                                  {
+
+                                      ID = user.Id,
+
+                                      FirstName = user.FirstName,
+
+                                      LastName = user.LastName,
+
+                                      Address = user.Address,
+
+                                      StreetNumber = user.StreetNumber,
+
+                                      City = user.City,
+
+                                      Country = user.Country.Name,
+
+                                      Phone = user.PhoneNumber,
+
+                                      RoleName = role.Name,
+
+                                      Username = user.UserName,
+
+                                      Email = user.Email,
+
+                                      Active = user.Active.Value
+
+                                  }).Where(x => x.Active == false);
+
+            return View(usersWithRoles.ToList());
+        }
+
+        
     }
 }
