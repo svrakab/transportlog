@@ -64,24 +64,36 @@ namespace Transport.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [StringLength(50)]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
+        [Required]
+        [StringLength(50)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        [Required]
+        [StringLength(50)]
         [Display(Name = "Address")]
         public string Address { get; set; }
 
+        [Required]
+        [StringLength(5)]
         [Display(Name = "Street Number")]
         public string StreetNumber { get; set; }
 
+        [Required]
+        [StringLength(50)]
         [Display(Name = "City")]
         public string City { get; set; }
 
+        [Required]
         [Display(Name = "Country")]
         public int ? IDCountry { get; set; }
 
+        [Phone]
         [Display(Name = "Phone")]
         public string PhoneNumber { get; set; }
 

@@ -10,6 +10,7 @@ using Transport.Models;
 
 namespace Transport.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class StatusController : Controller
     {
         private TransportLogEntities db = new TransportLogEntities();

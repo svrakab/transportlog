@@ -12,7 +12,7 @@ using Transport.Models;
 
 namespace Transport.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -141,7 +141,6 @@ namespace Transport.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
         public ActionResult Register()
         {
             ViewBag.Country = new SelectList(transpContext.Country.ToList(), "ID", "Name");
@@ -152,7 +151,6 @@ namespace Transport.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {

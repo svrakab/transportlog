@@ -10,6 +10,7 @@ using Transport.Models;
 
 namespace Transport.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CustomerController : Controller
     {
         private TransportLogEntities db = new TransportLogEntities();

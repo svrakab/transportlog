@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace Transport.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UserManagementController : Controller
     {
         ApplicationDbContext appContext = new ApplicationDbContext();
         TransportLogEntities transpContext = new TransportLogEntities();
 
         // GET: UserManagement
-        [Authorize(Roles = "Admin")]
 
         public ActionResult Index()
 

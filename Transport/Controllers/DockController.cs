@@ -10,6 +10,7 @@ using Transport.Models;
 
 namespace Transport.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DockController : Controller
     {
         private TransportLogEntities db = new TransportLogEntities();
