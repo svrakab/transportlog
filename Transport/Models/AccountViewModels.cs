@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Transport.Models
@@ -63,20 +64,23 @@ namespace Transport.Models
 
     public class RegisterViewModel
     {
-        [Display(Name = "Name")]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [Display(Name = "")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         [Display(Name = "Address")]
         public string Address { get; set; }
-        
+
+        [Display(Name = "Street Number")]
+        public string StreetNumber { get; set; }
+
         [Display(Name = "City")]
         public string City { get; set; }
 
         [Display(Name = "Country")]
-        public string Country { get; set; }
+        public int ? IDCountry { get; set; }
 
         [Display(Name = "Phone")]
         public string PhoneNumber { get; set; }
@@ -93,6 +97,9 @@ namespace Transport.Models
         [Required]
         [Display(Name = "UserName")]
         public string UserName { get; set; }
+
+        [Display(Name = "Status")]
+        public bool Active { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
@@ -135,33 +142,41 @@ namespace Transport.Models
         public string Email { get; set; }
     }
 
-    public class GroupedUserViewModel
-    {
-        public int Id { get; set; }
-        [Required]
-        public List<UserViewModel> Users { get; set; }
-        [Required]
-        public List<UserViewModel> Admins { get; set; }
-    }
-    public class UserViewModel
-    {
-        public int Id { get; set; }
+    //public class GroupedUserViewModel
+    //{
+    //    public int Id { get; set; }
+    //    [Required]
+    //    public List<UserViewModel> Users { get; set; }
+    //    [Required]
+    //    public List<UserViewModel> Admins { get; set; }
+    //}
+    //public class UserViewModel
+    //{
+    //    public string ID { get; set; }
+        
+    //    public string FirstName { get; set; }
 
-        public string Name { get; set; }
+    //    public string LastName { get; set; }
 
-        public string Address { get; set; }
+    //    public string Address { get; set; }
 
-        public string City { get; set; }
+    //    public string StreetNumber { get; set; }
 
-        public string Country { get; set; }
+    //    public string City { get; set; }
 
-        public string Phone { get; set; }
+    //    public Nullable<int> IDCountry { get; set; }
 
-        public string RoleName { get; set; }
+    //    public string Country { get; set; }
 
-        public string Username { get; set; }
+    //    public string Phone { get; set; }
 
-        public string Email { get; set; }
+    //    public string RoleName { get; set; }
 
-    }
+    //    public string Username { get; set; }
+
+    //    public string Email { get; set; }
+
+    //    public bool Active { get; set; }
+
+    //}
 }

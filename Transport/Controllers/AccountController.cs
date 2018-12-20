@@ -19,10 +19,12 @@ namespace Transport.Controllers
         private ApplicationUserManager _userManager;
 
         ApplicationDbContext context;
+        TransportLogEntities transpContext;
 
         public AccountController()
         {
             context = new ApplicationDbContext();
+            transpContext = new TransportLogEntities();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -142,8 +144,8 @@ namespace Transport.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
-                                                        .ToList(), "Name", "Name");
+            ViewBag.Country = new SelectList(transpContext.Country.ToList(), "ID", "Name");
+            ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
             return View();
         }
 
@@ -154,12 +156,15 @@ namespace Transport.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            ViewBag.Country = new SelectList(transpContext.Country.ToList(), "ID", "Name");
+            ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email , FirstName = model.FirstName, LastName = model.LastName, PhoneNumber = model.PhoneNumber, Address = model.Address, StreetNumber = model.StreetNumber, City = model.City, IDCountry = model.IDCountry, Active = model.Active };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771   
@@ -169,11 +174,14 @@ namespace Transport.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");   
                     //Assign Role to user Here      
                     await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
+                    
                     //Ends Here    
                     return RedirectToAction("Index", "UserManagement");
+
+                    //UserManager.AddToRole(userId, role)
                 }
-                ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
-                                          .ToList(), "Name", "Name");
+                ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
+                ViewBag.Country = new SelectList(transpContext.Country.ToList(), "ID", "Name");
                 AddErrors(result);
             }
 

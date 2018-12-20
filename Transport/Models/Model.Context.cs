@@ -142,5 +142,20 @@ namespace Transport.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
         }
+    
+        public virtual int Role(string userID, string roleID)
+        {
+            var userIDParameter = userID != null ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(string));
+    
+            var roleIDParameter = roleID != null ?
+                new ObjectParameter("RoleID", roleID) :
+                new ObjectParameter("RoleID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Role", userIDParameter, roleIDParameter);
+        }
+
+        public System.Data.Entity.DbSet<Transport.Models.UserViewModel> UserViewModels { get; set; }
     }
 }

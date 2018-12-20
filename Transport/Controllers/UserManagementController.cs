@@ -7,59 +7,197 @@ using System.Web;
 using System.Web.Mvc;
 using Transport.Models;
 using System.Data.Entity;
+using System.Net;
+using System.Web.Security;
+using Microsoft.AspNet.Identity.Owin;
+using System.Threading.Tasks;
 
 namespace Transport.Controllers
 {
     public class UserManagementController : Controller
     {
-        Models.ApplicationDbContext appContext = new Models.ApplicationDbContext();
-        Models.TransportLogEntities transpContext = new Models.TransportLogEntities();
+        ApplicationDbContext appContext = new ApplicationDbContext();
+        TransportLogEntities transpContext = new TransportLogEntities();
 
         // GET: UserManagement
         [Authorize(Roles = "Admin")]
+
         public ActionResult Index()
+
         {
-            var role = (from r in appContext.Roles where r.Name.Contains("User") select r).FirstOrDefault();
-            var users = appContext.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role.Id)).ToList();
-            List<AspNetUsers> usersss = transpContext.AspNetUsers.ToList();
+            var usersWithRoles = (from user in transpContext.AspNetUsers
 
-            
+                                  from userRole in user.AspNetRoles
 
-            var userVM = users.Select(user => new Models.UserViewModel
-            {
-                Phone = user.PhoneNumber,
-                RoleName = "User"
-            }).ToList();
+                                  join role in transpContext.AspNetRoles on userRole.Id equals
 
+                                  role.Id
 
-            var role2 = (from r in appContext.Roles where r.Name.Contains("Admin") select r).FirstOrDefault();
-            var admins = appContext.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role2.Id)).ToList();
+                                  select new UserViewModel()
 
+                                  {
 
-            var adminVM = admins.Select(user => new Models.UserViewModel
-            {
-                Phone = user.PhoneNumber,
-                RoleName = "Admin"
-            }).ToList();
+                                      ID = user.Id,
 
+                                      FirstName = user.FirstName,
 
+                                      LastName = user.LastName,
 
+                                      Address = user.Address,
 
-            var model = new Models.GroupedUserViewModel { Users = userVM, Admins = adminVM };
+                                      StreetNumber = user.StreetNumber,
 
-            return View(usersss);
+                                      City = user.City,
 
+                                      Country = user.Country.Name, 
 
+                                      Phone = user.PhoneNumber,
 
+                                      RoleName = role.Name,
 
-            //using (var DBContext = new TransportLogEntities())
-            //{
-            //    List<AspNetUsers> rolesList = DBContext.AspNetUsers.ToList();
+                                      Username = user.UserName,
 
-            //    ViewBag.Roles = new SelectList(DBContext.AspNetRoles.ToList(), "Id", "Name");
+                                      Email = user.Email,
 
-            //    return View(rolesList);
-            //}
+                                      Active = user.Active.Value
+
+                                  }).Where(x => x.Active == true);
+
+            return View(usersWithRoles.ToList());
+
         }
+
+
+        public ActionResult Edit(string id)
+
+        {
+
+            var usersWithRoles = (from user in transpContext.AspNetUsers
+
+                                  from userRole in user.AspNetRoles
+
+                                  join role in transpContext.AspNetRoles on userRole.Id equals
+
+                                  role.Id
+
+                                  select new UserViewModel
+
+                                  {
+
+                                      ID = user.Id,
+
+                                      FirstName = user.FirstName,
+
+                                      LastName = user.LastName,
+
+                                      Address = user.Address,
+
+                                      StreetNumber = user.StreetNumber,
+
+                                      City = user.City,
+
+                                      IDCountry = user.IDCountry,
+
+                                      Phone = user.PhoneNumber,
+
+                                      RoleName = role.Name,
+
+                                      Username = user.UserName,
+
+                                      Email = user.Email,
+
+                                      Active = user.Active.Value
+
+                                  }).Where(x => x.ID == id).FirstOrDefault();
+
+            if (usersWithRoles == null)
+
+            {
+
+                return HttpNotFound();
+
+            }
+            ViewBag.Country = new SelectList(transpContext.Country.ToList(), "ID", "Name");
+            ViewBag.Roles = new SelectList(transpContext.AspNetRoles.ToList(), "Name", "Name");
+            return View(usersWithRoles);
+
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(UserViewModel users)
+        {
+            if (ModelState.IsValid)
+            {
+
+                AspNetUsers dataModel = transpContext.AspNetUsers.Where(x => x.Id == users.ID).First();
+                dataModel.Id = users.ID;
+                dataModel.FirstName = users.FirstName;
+                dataModel.LastName = users.LastName;
+                dataModel.Address = users.Address;
+                dataModel.StreetNumber = users.StreetNumber;
+                dataModel.City = users.City;
+                dataModel.IDCountry = users.IDCountry;
+                dataModel.PhoneNumber = users.Phone;
+                dataModel.UserName = users.Username;
+                dataModel.Email = users.Email;
+                dataModel.Active = users.Active;
+
+                var userManager= HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                 
+                var userRoles = await userManager.GetRolesAsync(users.ID);
+                await userManager.RemoveFromRolesAsync(users.ID, userRoles.ToArray());
+                await userManager.AddToRoleAsync(users.ID, users.RoleName);
+                transpContext.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+        // GET: AspNetUsers/Delete/5
+        public ActionResult Deleted(string id)
+        {
+            var usersWithRoles = (from user in transpContext.AspNetUsers
+
+                                  from userRole in user.AspNetRoles
+
+                                  join role in transpContext.AspNetRoles on userRole.Id equals
+
+                                  role.Id
+
+                                  select new UserViewModel()
+
+                                  {
+
+                                      ID = user.Id,
+
+                                      FirstName = user.FirstName,
+
+                                      LastName = user.LastName,
+
+                                      Address = user.Address,
+
+                                      StreetNumber = user.StreetNumber,
+
+                                      City = user.City,
+
+                                      Country = user.Country.Name,
+
+                                      Phone = user.PhoneNumber,
+
+                                      RoleName = role.Name,
+
+                                      Username = user.UserName,
+
+                                      Email = user.Email,
+
+                                      Active = user.Active.Value
+
+                                  }).Where(x => x.Active == false);
+
+            return View(usersWithRoles.ToList());
+        }
+
+        
     }
 }
