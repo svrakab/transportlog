@@ -37,9 +37,11 @@ namespace Transport.Controllers
 
             return Json(Docks, JsonRequestBehavior.AllowGet);
         }
-
+        
         public JsonResult GetLoads()
         {
+            
+            
             List<LoadGeneric2> Loads = transpContext.Load.Select(st => new LoadGeneric2
             {
                 LoadNumber = st.LoadNumber,
@@ -49,36 +51,21 @@ namespace Transport.Controllers
                 DockOn = st.DockOn,
                 DockOff = st.DockOff,
                 DepartureTime = st.DepartureTime,
-                //PlannedTime = JsonConvert.SerializeObject(st.PlannedTime) ?? "",
-                //ArivalTime = JsonConvert.SerializeObject(st.ArivalTime) ?? "",
-                //DockOn = JsonConvert.SerializeObject(st.DockOn) ?? "",
-                //DockOff = JsonConvert.SerializeObject(st.DockOff) ?? "",
-                //DepartureTime = JsonConvert.SerializeObject(st.DepartureTime) ?? "",
                 IDStatus = st.IDStatus,
                 IDLoadType = st.IDLoadType,
                 IDCustomers = st.IDCustomers,
                 IDDocks = st.IDDocks,
             }).ToList();
 
-            var json = JsonConvert.SerializeObject(Loads);
+            foreach (var mc in Loads)
+            {
+                LoadType LoadTypes = transpContext.LoadType.Where(x => x.ID == mc.IDLoadType).FirstOrDefault();
+                int minutes = LoadTypes.Time;
+                mc.EndDate = mc.PlannedTime.AddMinutes(minutes);
+            }
 
-            //        return new CustomJsonResult { Data = new {
-            //            Loads = transpContext.Load.Select(st => new LoadGeneric
-            //            {
-            //                LoadNumber = st.LoadNumber,
-            //                NumberOfPallets = st.NumberOfPallets,
-            //                startDate = st.PlannedTime,
-            //                ArivalTime = st.ArivalTime,
-            //                DockOn = st.DockOn,
-            //                DockOff = st.DockOff,
-            //                endDate = st.DepartureTime,
-            //                IDStatus = st.IDStatus,
-            //                IDLoadType = st.IDLoadType,
-            //                IDCustomers = st.IDCustomers,
-            //                IDDocks = st.IDDocks,
-            //            }).ToList()
-            //    }
-            //};
+            var json = JsonConvert.SerializeObject(Loads);
+            
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 

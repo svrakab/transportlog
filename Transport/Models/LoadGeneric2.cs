@@ -15,6 +15,7 @@ namespace Transport.Models
         public DateTime? DockOn { get; set; }
         public DateTime? DockOff { get; set; }
         public DateTime? DepartureTime { get; set; }
+        public DateTime EndDate { get; set; }
         public int IDStatus { get; set; }
         public int IDLoadType { get; set; }
         public int IDCustomers { get; set; }

@@ -100,12 +100,12 @@
                 dataType: "json",
                 data: '',
                 success: function (data, status, xhr) {
-                    loadsData = JSON.parse(data);
+                    data = JSON.parse(data);
                     //var time = getTimeByLoadTypeId(loadsData.IDLoadType).Value;
                     //if (data.DepartureTime == null) {
-                    //    data.DepartureTime = addMinutes(data.PlannedTime, time);
+                    //    data.EndDate = addMinutes(data.PlannedTime, time);
                     //}
-
+                    loadsData = data;
                 },
                 error: function (jqXhr, textStatus, errorMessage) {
                     alert(errorMessage + "Error");
@@ -185,7 +185,7 @@
                 dataSource: loadsData,
                 fieldExpr: "LoadNumber",
                 startDateExpr: "PlannedTime",
-                endDateExpr: "DepartureTime",
+                endDateExpr: "EndDate",
                 views: [{
                     type: "day",
                     name: "Day",
@@ -193,7 +193,7 @@
                     cellDuration: 60
                 }],
                 currentView: "day",
-                currentDate: new Date(2018, 5, 12),
+                currentDate: new Date(2018, 4, 12),
                 startDayHour: 0,
                 allowMultiple: true,
                 endDayHour: 24,
@@ -488,12 +488,12 @@
             .toArray()[0];
     }
 
-    function getTimeByLoadTypeId(id) {
-        console.log("GetTimeByLoadTypeId")
-        return DevExpress.data.query(dropdownsData.LoadTypes)
-            .filter("Id", id)
-            .toArray()[0];
-    }
+    //function getTimeByLoadTypeId(id) {
+    //    console.log("GetTimeByLoadTypeId")
+    //    return DevExpress.data.query(dropdownsData.LoadTypes)
+    //        .filter("Id", id)
+    //        .toArray()[0];
+    //}
 
     function getMinutesBetweenDates(startDate, endDate) {
         var diff = new Date(endDate).getTime() - new Date(startDate).getTime();
