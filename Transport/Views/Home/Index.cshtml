@@ -98,9 +98,9 @@
                 type: "GET",
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
-                data: JSON.stringify(new Date()),
+                data: '',
                 success: function (data, status, xhr) {
-                    loadsData = data;
+                    loadsData = JSON.parse(data);
                     //var time = getTimeByLoadTypeId(loadsData.IDLoadType).Value;
                     //if (data.DepartureTime == null) {
                     //    data.DepartureTime = addMinutes(data.PlannedTime, time);
