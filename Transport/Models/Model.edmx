@@ -116,7 +116,7 @@
           <Property Name="ArivalTime" Type="smalldatetime" />
           <Property Name="DockOn" Type="smalldatetime" />
           <Property Name="DockOff" Type="smalldatetime" />
-          <Property Name="DepartureTime" Type="smalldatetime" Nullable="false" />
+          <Property Name="DepartureTime" Type="smalldatetime" />
           <Property Name="IDStatus" Type="int" Nullable="false" />
           <Property Name="IDLoadType" Type="int" Nullable="false" />
           <Property Name="IDCustomers" Type="int" Nullable="false" />
@@ -542,7 +542,7 @@
           <Property Name="ArivalTime" Type="DateTime" Precision="0" />
           <Property Name="DockOn" Type="DateTime" Precision="0" />
           <Property Name="DockOff" Type="DateTime" Precision="0" />
-          <Property Name="DepartureTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DepartureTime" Type="DateTime" Precision="0" />
           <Property Name="IDStatus" Type="Int32" Nullable="false" />
           <Property Name="IDLoadType" Type="Int32" Nullable="false" />
           <Property Name="IDCustomers" Type="Int32" Nullable="false" />
