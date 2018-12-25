@@ -80,9 +80,7 @@
     //    load.PlannedTime = "new Date" + load.PlannedTime + ")";
     //    load.DepartureTime = "new Date" + load.DepartureTime + ")";
     //}
-
-    //addNewDate(dataLocal);
-    //console.log(dataLocal);
+    
 
         function getSchedulerInstance() {
             console.log("startSchedulerInstance")
@@ -101,10 +99,6 @@
                 data: '',
                 success: function (data, status, xhr) {
                     data = JSON.parse(data);
-                    //var time = getTimeByLoadTypeId(loadsData.IDLoadType).Value;
-                    //if (data.DepartureTime == null) {
-                    //    data.EndDate = addMinutes(data.PlannedTime, time);
-                    //}
                     loadsData = data;
                 },
                 error: function (jqXhr, textStatus, errorMessage) {
@@ -153,14 +147,14 @@
 
         var colors = [
             {
-                id: 1,
+                id: 3,
                 color: "#ff0000"
             },
             {
                 id: 2,
                 color: "#00ff00"
             }, {
-                id: 3,
+                id: 1,
                 color: "#0000ff"
             }, {
                 id: 4,
@@ -175,6 +169,8 @@
             console.log("StartScheduler");
             console.log("loadsData");
             console.log(loadsData);
+            console.log("docksData");
+            console.log(docksData);
             console.log("dropdownsData.Statuses");
             console.log(dropdownsData.Statuses);
             console.log("dropdownsData.LoadTypes");
@@ -213,27 +209,25 @@
                         fieldExpr: "IDStatus",
                         dataSource: colors,
                         useColorAsDefault: true
-                    },
-                    {
-                    dataSource: docksData,
-                    fieldExpr: "IDDocks",
-                    valueExpr: "Id",
-                    displayExpr: "Text",
-                    allowMultiple: true,
-                    label: "Docks"
+                    },{
+                        dataSource: docksData,
+                        fieldExpr: "IDDocks",
+                        valueExpr: "Id",
+                        displayExpr: "Text",
+                        label: "Docks"
                     }],
            
                 appointmentTemplate: function (data) {
 
                     var status = "";
                     switch (data.IDStatus) {
-                        case 1:
+                        case 3:
                             status = "Planned";
                             break;
-                        case 2:
+                        case 1:
                             status = "In Process";
                             break;
-                        case 3:
+                        case 2:
                             status = "Completed";
                             break;
                         default:
@@ -243,14 +237,62 @@
                     if (data.LoadNumber == null)
                         data.LoadNumber = "";
 
+                    var customer = getCustomerById(data.IDCustomers);
+
                     return $("<div class='showtime-preview no-wrap'>" +
                         "<div class='status-text'>" + status + "</div><div class='hr'><hr></div>" +
                         "<div style='margin-bottom: 5px;'><strong>" +
                         "<div><strong>Load Number:</strong>&nbsp;" + data.LoadNumber + "</div>" +
-                        "<div><strong>Customer:</strong>&nbsp;" + data.Customers + "</strong></div>" +
+                        "<div><strong>Customer:</strong>&nbsp;" + customer.Text + "</strong></div>" +
                         "</div>" +
                         "</div>");
                 },
+                onAppointmentAdding: function (e) {
+                    
+
+                    $.ajax({
+                        url: '/Home/Create',
+                        type: 'POST',
+                        data: JSON.stringify(e.appointmentData),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.Response == "OK") {
+                                toastr.success("Created", e.appointmentData.text, "info");
+                            }
+                            else
+                                toastr.error("Error: " + data.Result.JobId);
+                        },
+                        error: function (jqXHR, exception) {
+                            toastr.error("Error while saving");
+                        }
+                    });
+                },
+                onAppointmentUpdating: function (e) {
+                    var load;
+                    var offset;
+                    
+
+                    //$.ajax({
+                    //    url: '/Home/Edit',
+                    //    type: 'POST',
+                    //    data: JSON.stringify(e.appointmentData),
+                    //    contentType: 'application/json; charset=utf-8',
+                    //    dataType: 'json',
+                    //    success: function (data) {
+                    //        if (data.Response == "OK") {
+                    //            toastr.success("Updated", e.appointmentData, "info");
+                    //        }
+                    //        else
+                    //            toastr.error("Error: " + data.Result.JobId);
+                    //    },
+                    //    error: function (jqXHR, exception) {
+                    //        toastr.error("Error while saving");
+                    //    }
+                    //});
+
+                },
+
                 onAppointmentFormCreated: function (data) {
 
                     startDateTemp = data.appointmentData.PlannedTime;
@@ -281,8 +323,8 @@
                         dataField: "IDStatus",
                         editorOptions: {
                             items: dropdownsData.Statuses,
-                            displayExpr: "text",
-                            valueExpr: "id",
+                            displayExpr: "Text",
+                            valueExpr: "Id",
                             onValueChanged: function (args) {
                             }
                         }
@@ -312,7 +354,9 @@
                         editorOptions: {
                             items: docksData,
                             displayExpr: "Text",
-                            valueExpr: "Id"
+                            valueExpr: "Id",
+                            onValueChanged: function (args) {
+                            }
                         }
                     }
                         ,
@@ -320,11 +364,12 @@
                         label: {
                             text: "No Pallets"
                         },
-                        name: "NumberOfPallets",
+                        dataField: "NumberOfPallets",
                         editorType: "dxTextBox",
                         editorOptions: {
                             value: load.NumberOfPallets,
-                            readOnly: false
+                            displayExpr: "Text",
+                            valueExpr: "Id",
                         }
                     }
                         ,
@@ -336,8 +381,8 @@
                             dataField: "IDLoadType",
                             editorOptions: {
                                 items: dropdownsData.LoadTypes,
-                                displayExpr: "text",
-                                valueExpr: "id",
+                                displayExpr: "Text",
+                                valueExpr: "Id",
                                 onValueChanged: function (args) {
 
                                     var loadType = getTimeByLoadTypeId(args.value)
@@ -434,6 +479,17 @@
                     }
 
                     ]);
+
+                    //form.getEditor("TimeSlot")
+                    //    .option("value", new Date(startDate));
+
+                    //form.itemOption("LoadTypeId", { validationRules: [{ type: "required", message: "Load type is required" }] });
+                    //form.itemOption("LoadInOutId", { validationRules: [{ type: "required", message: "Inbound/Outbound is required" }] });
+                    //form.itemOption("TransportCompanyId", { validationRules: [{ type: "required", message: "Transport Company is required" }] });
+                    //form.itemOption("CustomerId", { validationRules: [{ type: "required", message: "Customer is required" }] });
+                    //form.itemOption("DockId", { validationRules: [{ type: "required", message: "Dock is required" }] });
+                    //form.itemOption("TimeSlot", { validationRules: [{ type: "required", message: "TimeSlot is required" }] });
+                    //form.itemOption("EstimatedDepartureTime", { validationRules: [{ type: "required", message: "Estimated Departure time is required" }] });
                 }
             }).dxScheduler("instance");
         }
@@ -443,6 +499,12 @@
         console.log("GetLoadByID")
         return DevExpress.data.query(loadsData)
             .filter("LoadNumber", id)
+            .toArray()[0];
+    }
+    function getCustomerById(id) {
+        console.log("GetCustomerByID")
+        return DevExpress.data.query(dropdownsData.Customers)
+            .filter("Id", id)
             .toArray()[0];
     }
 
