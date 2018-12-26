@@ -40,9 +40,7 @@ namespace Transport.Controllers
         
         public JsonResult GetLoads()
         {
-            
-            
-            List<LoadGeneric2> Loads = transpContext.Load.Select(st => new LoadGeneric2
+            List<LoadGeneric2> Loads = transpContext.Load.Where(d => d.Deleted == false).Select(st => new LoadGeneric2
             {
                 LoadNumber = st.LoadNumber,
                 NumberOfPallets = st.NumberOfPallets,
@@ -55,13 +53,18 @@ namespace Transport.Controllers
                 IDLoadType = st.IDLoadType,
                 IDCustomers = st.IDCustomers,
                 IDDocks = st.IDDocks,
+                EndDate = st.EndDate,
+                Deleted = st.Deleted.Value,
             }).ToList();
-
+            
             foreach (var mc in Loads)
             {
-                LoadType LoadTypes = transpContext.LoadType.Where(x => x.ID == mc.IDLoadType).FirstOrDefault();
-                int minutes = LoadTypes.Time;
-                mc.EndDate = mc.PlannedTime.AddMinutes(minutes);
+                if (mc.EndDate == null)
+                {
+                    LoadType LoadTypes = transpContext.LoadType.Where(x => x.ID == mc.IDLoadType).FirstOrDefault();
+                    int minutes = LoadTypes.Time;
+                    mc.EndDate = mc.PlannedTime.AddMinutes(minutes);
+                }
             }
 
             var json = JsonConvert.SerializeObject(Loads);
@@ -131,7 +134,7 @@ namespace Transport.Controllers
             {
                 if (ModelState.IsValid)
                 {
-
+                    load.Deleted = false;
 
                     DBContext.Load.Add(load);
                     DBContext.SaveChanges();
@@ -167,10 +170,35 @@ namespace Transport.Controllers
                     var loadN = DBContext.Load.Where(x => x.LoadNumber == load.LoadNumber).FirstOrDefault();
                     if (loadN != null)
                     {
+                        loadN.PlannedTime = load.PlannedTime;
+                        loadN.NumberOfPallets = load.NumberOfPallets;
                         loadN.ArivalTime = load.ArivalTime;
                         loadN.DockOn = load.DockOn;
                         loadN.DockOff = load.DockOff;
+                        loadN.DepartureTime = load.DepartureTime;
+                        loadN.IDStatus = load.IDStatus;
+                        loadN.IDLoadType = load.IDLoadType;
+                        loadN.IDCustomers = load.IDCustomers;
+                        loadN.IDDocks = load.IDDocks;
+                        loadN.EndDate = load.EndDate;
                     }
+                    
+
+                    if (loadN.ArivalTime == null)
+                    {
+                        loadN.IDStatus = 1;
+                    }
+                    else if (loadN.DepartureTime != null)
+                    {
+                        loadN.IDStatus = 3;
+                    }
+                    else if(loadN.ArivalTime!=null || loadN.DockOn!=null || loadN.DockOff!=null)
+                    {
+                        loadN.IDStatus = 2;
+                    }
+                    
+                    
+
                     DBContext.SaveChanges();
 
                     return Json(new { success = true, artikli = load });
@@ -189,19 +217,6 @@ namespace Transport.Controllers
                     });
                 }
             }
-        }
-
-
-    
-    
-       
-
-
-        [HttpPost]
-        public ActionResult Index(GroupHomeViewModel model)
-        {
-
-            return View();
         }
     }
 

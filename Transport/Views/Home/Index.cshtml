@@ -147,18 +147,18 @@
 
         var colors = [
             {
-                id: 3,
+                id: 1,
                 color: "#ff0000"
             },
             {
                 id: 2,
                 color: "#00ff00"
             }, {
-                id: 1,
+                id: 3,
                 color: "#0000ff"
             }, {
                 id: 4,
-                color: "#ff0000"
+                color: "#000000"
             }];
 
 
@@ -218,24 +218,35 @@
                     }],
            
                 appointmentTemplate: function (data) {
+                    
+                    if (data.LoadNumber == null)
+                        data.LoadNumber = "";
+
+                    if (data.ArivalTime == null) {
+                        data.IDStatus = 1;
+                    }
+                    else if (data.DepartureTime != null) {
+                        data.IDStatus = 3;
+                    }
+                    else if (data.ArivalTime != null || data.DockOn != null || data.DockOff != null) {
+                        data.IDStatus = 2;
+                    }
 
                     var status = "";
                     switch (data.IDStatus) {
-                        case 3:
+                        case 1:
                             status = "Planned";
                             break;
-                        case 1:
+                        case 2:
                             status = "In Process";
                             break;
-                        case 2:
+                        case 3:
                             status = "Completed";
                             break;
                         default:
                             status = "Status Undefined";
                     }
 
-                    if (data.LoadNumber == null)
-                        data.LoadNumber = "";
 
                     var customer = getCustomerById(data.IDCustomers);
 
@@ -273,26 +284,25 @@
                     var offset;
                     
 
-                    //$.ajax({
-                    //    url: '/Home/Edit',
-                    //    type: 'POST',
-                    //    data: JSON.stringify(e.appointmentData),
-                    //    contentType: 'application/json; charset=utf-8',
-                    //    dataType: 'json',
-                    //    success: function (data) {
-                    //        if (data.Response == "OK") {
-                    //            toastr.success("Updated", e.appointmentData, "info");
-                    //        }
-                    //        else
-                    //            toastr.error("Error: " + data.Result.JobId);
-                    //    },
-                    //    error: function (jqXHR, exception) {
-                    //        toastr.error("Error while saving");
-                    //    }
-                    //});
+                    $.ajax({
+                        url: '/Home/Edit',
+                        type: 'POST',
+                        data: JSON.stringify(e.newData),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.Response == "OK") {
+                                toastr.success("Updated", e.appointmentData, "info");
+                            }
+                            else
+                                toastr.error("Error: " + data.Result.JobId);
+                        },
+                        error: function (jqXHR, exception) {
+                            toastr.error("Error while saving");
+                        }
+                    });
 
                 },
-
                 onAppointmentFormCreated: function (data) {
 
                     startDateTemp = data.appointmentData.PlannedTime;
@@ -418,15 +428,15 @@
                         label: {
                             text: "Arrival Time"
                         },
-                        name: "ArrivalTime",
-                        dataField: "ArrivalTime",
+                        name: "ArivalTime",
+                        dataField: "ArivalTime",
                         editorType: "dxDateBox",
                         editorOptions: {
                             value: load.ArivalTime,
                             width: "100%",
                             type: "datetime",
                             onValueChanged: function (args) {
-                                form.getEditor("StatusId")
+                                form.getEditor("IDStatus")
                                     .option("value", 2);
                             },
                             readOnly: false
@@ -474,6 +484,23 @@
                             value: load.DepartureTime,
                             width: "100%",
                             type: "datetime",
+                            onValueChanged: function (args) {
+                                form.getEditor("IDStatus")
+                                    .option("value", 3);
+                            },
+                            readOnly: false
+                        }
+                    }
+                        ,
+                    {
+                        label: {
+                            text: "Deleted"
+                        },
+                        name: "Deleted",
+                        dataField: "Deleted",
+                        editorType: "dxSwitchBox",
+                        editorOptions: {
+                            value: load.Deleted,
                             readOnly: false
                         }
                     }

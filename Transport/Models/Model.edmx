@@ -121,6 +121,8 @@
           <Property Name="IDLoadType" Type="int" Nullable="false" />
           <Property Name="IDCustomers" Type="int" Nullable="false" />
           <Property Name="IDDocks" Type="int" Nullable="false" />
+          <Property Name="EndDate" Type="smalldatetime" />
+          <Property Name="Deleted" Type="bit" />
         </EntityType>
         <EntityType Name="LoadType">
           <Key>
@@ -547,6 +549,8 @@
           <Property Name="IDLoadType" Type="Int32" Nullable="false" />
           <Property Name="IDCustomers" Type="Int32" Nullable="false" />
           <Property Name="IDDocks" Type="Int32" Nullable="false" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="Deleted" Type="Boolean" />
           <NavigationProperty Name="Customer" Relationship="TransportLogModel.FK_Loads_Customers" FromRole="Load" ToRole="Customer" />
           <NavigationProperty Name="Dock" Relationship="TransportLogModel.FK_Loads_Docks" FromRole="Load" ToRole="Dock" />
           <NavigationProperty Name="LoadType" Relationship="TransportLogModel.FK_Load_LoadType" FromRole="Load" ToRole="LoadType" />
@@ -792,6 +796,8 @@
           <EntitySetMapping Name="Load">
             <EntityTypeMapping TypeName="TransportLogModel.Load">
               <MappingFragment StoreEntitySet="Load">
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
                 <ScalarProperty Name="IDDocks" ColumnName="IDDocks" />
                 <ScalarProperty Name="IDCustomers" ColumnName="IDCustomers" />
                 <ScalarProperty Name="IDLoadType" ColumnName="IDLoadType" />

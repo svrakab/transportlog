@@ -25,6 +25,8 @@ namespace Transport.Models
         public int IDLoadType { get; set; }
         public int IDCustomers { get; set; }
         public int IDDocks { get; set; }
+        public Nullable<System.DateTime> EndDate { get; set; }
+        public Nullable<bool> Deleted { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Dock Dock { get; set; }
