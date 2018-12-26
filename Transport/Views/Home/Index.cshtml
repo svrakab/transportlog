@@ -161,6 +161,16 @@
                 color: "#000000"
             }];
 
+    var deleted = [
+        {
+            value: false,
+            text: "False"
+        },
+        {
+            value: true,
+            text: "True"
+        }
+    ]
 
 
 
@@ -496,12 +506,14 @@
                         label: {
                             text: "Deleted"
                         },
-                        name: "Deleted",
+                        editorType: "dxSelectBox",
                         dataField: "Deleted",
-                        editorType: "dxSwitchBox",
                         editorOptions: {
-                            value: load.Deleted,
-                            readOnly: false
+                            items: deleted,
+                            displayExpr: "text",
+                            valueExpr: "value",
+                            onValueChanged: function (args) {
+                            }
                         }
                     }
 

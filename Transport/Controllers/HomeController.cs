@@ -181,6 +181,7 @@ namespace Transport.Controllers
                         loadN.IDCustomers = load.IDCustomers;
                         loadN.IDDocks = load.IDDocks;
                         loadN.EndDate = load.EndDate;
+                        loadN.Deleted = load.Deleted;
                     }
                     
 
