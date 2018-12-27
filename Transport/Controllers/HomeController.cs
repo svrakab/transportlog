@@ -79,7 +79,8 @@ namespace Transport.Controllers
                     Statuses = transpContext.Status.Select(st => new Generic
                     {
                         Id = st.ID,
-                        Text = st.Name
+                        Text = st.Name,
+                        Color = st.ColorHex
                     }).ToList(),
                     Customers = transpContext.Customer.Select(st => new Generic
                     {

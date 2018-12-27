@@ -236,6 +236,7 @@
     <Compile Include="Models\AspNetUsers.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ColorGeneric.cs" />
     <Compile Include="Models\Country.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

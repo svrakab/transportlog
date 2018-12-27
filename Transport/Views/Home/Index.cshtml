@@ -16,151 +16,88 @@
 
 
 <script>
-    //var Planner = function () {
 
     var scheduler;
 
     var dropdownsData = {};
-
     var loadsData = [];
     var docksData = [];
 
     var a1 = getLoadsData();
     var a2 = getDocksData();
     var a3 = getDropdownsData();
-
-    var dataLocal = [{
-        ArivalTime: null,
-        DepartureTime: new Date("2018-06-12T14:35:00"),
-        DockOff: null,
-        DockOn: null,
-        IDCustomers: 1,
-        IDDocks: 1,
-        IDLoadType: 1,
-        IDStatus: 1,
-        LoadNumber: 1,
-        NumberOfPallets: 20,
-        PlannedTime: new Date("2018-06-12T12:35:00"),
-    }, {
-        ArivalTime: null,
-        DepartureTime: new Date(2018,05,12,14,35),
-        DockOff: null,
-        DockOn: null,
-        IDCustomers: 1,
-        IDDocks: 3,
-        IDLoadType: 1,
-        IDStatus: 1,
-        LoadNumber: 5,
-        NumberOfPallets: 40,
-        PlannedTime: new Date(2018, 05, 12, 12, 35),
-    }, {
-        ArivalTime: null,
-        DepartureTime: "2018-06-12T12:35:00",
-        DockOff: null,
-        DockOn: null,
-        IDCustomers: 1,
-        IDDocks: 3,
-        IDLoadType: 1,
-        IDStatus: 1,
-        LoadNumber: 5,
-        NumberOfPallets: 40,
-        PlannedTime: "2018-06-12T12:35:00",
-    }]
-
-
-        $(document).ready(function () {
-            $.when(a1,a2,a3).done(function () {
-                startScheduler();
-                console.log("loadsData");
-                console.log(loadsData);
-            });
-        });
-
-    //function addNewDate(load) {
-    //    load.PlannedTime = "new Date" + load.PlannedTime + ")";
-    //    load.DepartureTime = "new Date" + load.DepartureTime + ")";
-    //}
     
+    $(document).ready(function () {
+        $.when(a1,a2,a3).done(function () {
+            startScheduler();
+            console.log("loadsData");
+            console.log(loadsData);
+        });
+    });
 
-        function getSchedulerInstance() {
-            console.log("startSchedulerInstance")
+  
+    function getSchedulerInstance() {
+        console.log("startSchedulerInstance")
 
-            return scheduler.dxScheduler("instance");
-        }
+        return scheduler.dxScheduler("instance");
+    }
 
-        function getLoadsData() {
-            console.log("getLoadsData")
+    function getLoadsData() {
+        console.log("getLoadsData")
 
-            return $.ajax({
-                url: "/Home/GetLoads",
-                type: "GET",
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                data: '',
-                success: function (data, status, xhr) {
-                    data = JSON.parse(data);
-                    loadsData = data;
-                },
-                error: function (jqXhr, textStatus, errorMessage) {
-                    alert(errorMessage + "Error");
-                }
-            });
-        }
-
-        function getDocksData() {
-            console.log("getDocksData")
-
-            return $.ajax({
-                url: "/Home/GetDocks",
-                type: "GET",
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                data: '',
-                success: function (data, status, xhr) {
-                    docksData = data;
-                },
-                error: function (jqXhr, textStatus, errorMessage) {
-                    alert(errorMessage + "Error");
-                }
-            });
-        }
-
-        function getDropdownsData() {
-            console.log("getDropdownsData")
-
-            return $.ajax({
-                url: "/Home/GetDropdowns",
-                type: "GET",
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                data: '',
-                success: function (data, status, xhr) {
-                    dropdownsData = data;
-                },
-                error: function (jqXhr, textStatus, errorMessage) {
-                    alert(errorMessage+"Error");
-                }
-            });
-        }
-
-
-
-        var colors = [
-            {
-                id: 1,
-                color: "#ff0000"
+        return $.ajax({
+            url: "/Home/GetLoads",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            data: '',
+            success: function (data, status, xhr) {
+                data = JSON.parse(data);
+                loadsData = data;
             },
-            {
-                id: 2,
-                color: "#00ff00"
-            }, {
-                id: 3,
-                color: "#0000ff"
-            }, {
-                id: 4,
-                color: "#000000"
-            }];
+            error: function (jqXhr, textStatus, errorMessage) {
+                alert(errorMessage + "Error");
+            }
+        });
+    }
 
+    function getDocksData() {
+        console.log("getDocksData")
+
+        return $.ajax({
+            url: "/Home/GetDocks",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            data: '',
+            success: function (data, status, xhr) {
+                docksData = data;
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                alert(errorMessage + "Error");
+            }
+        });
+    }
+
+    function getDropdownsData() {
+        console.log("getDropdownsData")
+
+        return $.ajax({
+            url: "/Home/GetDropdowns",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            data: '',
+            success: function (data, status, xhr) {
+                dropdownsData = data;
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                alert(errorMessage+"Error");
+            }
+        });
+    }
+
+    
     var deleted = [
         {
             value: false,
@@ -171,64 +108,66 @@
             text: "True"
         }
     ]
+    
+    function startScheduler() {
+        console.log("StartScheduler");
+        console.log("loadsData");
+        console.log(loadsData);
+        console.log("docksData");
+        console.log(docksData);
+        console.log("dropdownsData.Statuses");
+        console.log(dropdownsData.Statuses);
+        console.log("dropdownsData.LoadTypes");
+        console.log(dropdownsData.LoadTypes);
+        console.log("dropdownsData.Customers");
+        console.log(dropdownsData.Customers);
 
 
-
-
-        function startScheduler() {
-            console.log("StartScheduler");
-            console.log("loadsData");
-            console.log(loadsData);
-            console.log("docksData");
-            console.log(docksData);
-            console.log("dropdownsData.Statuses");
-            console.log(dropdownsData.Statuses);
-            console.log("dropdownsData.LoadTypes");
-            console.log(dropdownsData.LoadTypes);
-            console.log("dropdownsData.Customers");
-            console.log(dropdownsData.Customers);
-
-
-            scheduler = $("#scheduler").dxScheduler({
-                dataSource: loadsData,
-                fieldExpr: "LoadNumber",
-                startDateExpr: "PlannedTime",
-                endDateExpr: "EndDate",
-                views: [{
-                    type: "day",
-                    name: "Day",
-                    groupOrientation: "horizontal",
-                    cellDuration: 60
+        scheduler = $("#scheduler").dxScheduler({
+            dataSource: loadsData,
+            fieldExpr: "LoadNumber",
+            startDateExpr: "PlannedTime",
+            endDateExpr: "EndDate",
+            views: [{
+                type: "day",
+                name: "Day",
+                groupOrientation: "horizontal",
+                cellDuration: 60
+            }],
+            currentView: "day",
+            currentDate: new Date(2018, 4, 12),
+            startDayHour: 0,
+            allowMultiple: true,
+            endDayHour: 24,
+            showAllDayPanel: false,
+            crossScrollingEnabled: false,
+            showCurrentTimeIndicator: true,
+            recurrenceEditMode: 'occurrence',
+            width: "100%",
+            editing: {
+                allowAdding: true
+            },
+            groups: ["IDDocks"],
+            resources: [
+                {
+                    fieldExpr: "IDStatus",
+                    dataSource: dropdownsData.Statuses,
+                    valueExpr: "Id",
+                    colorExpr: "Color",
+                    useColorAsDefault: true
+                },{
+                    dataSource: docksData,
+                    fieldExpr: "IDDocks",
+                    valueExpr: "Id",
+                    displayExpr: "Text",
+                    label: "Docks"
                 }],
-                currentView: "day",
-                currentDate: new Date(2018, 4, 12),
-                startDayHour: 0,
-                allowMultiple: true,
-                endDayHour: 24,
-                showAllDayPanel: false,
-                crossScrollingEnabled: false,
-                showCurrentTimeIndicator: true,
-                recurrenceEditMode: 'occurrence',
-                width: "100%",
-                editing: {
-                    allowAdding: true
-                },
-                groups: ["IDDocks"],
-                resources: [
-                    {
-                        fieldExpr: "IDStatus",
-                        dataSource: colors,
-                        useColorAsDefault: true
-                    },{
-                        dataSource: docksData,
-                        fieldExpr: "IDDocks",
-                        valueExpr: "Id",
-                        displayExpr: "Text",
-                        label: "Docks"
-                    }],
            
-                appointmentTemplate: function (data) {
-                    
+            appointmentTemplate: function (data) {
+
+                if (data.Deleted == true) {
+                    return null;
+                } else {
                     if (data.LoadNumber == null)
                         data.LoadNumber = "";
 
@@ -243,20 +182,12 @@
                     }
 
                     var status = "";
-                    switch (data.IDStatus) {
-                        case 1:
-                            status = "Planned";
-                            break;
-                        case 2:
-                            status = "In Process";
-                            break;
-                        case 3:
-                            status = "Completed";
-                            break;
-                        default:
-                            status = "Status Undefined";
-                    }
-
+                        
+                    var condition = dropdownsData.Statuses[data.IDStatus - 1];
+                    if (condition.Id = data.IDStatus) {
+                        status = condition.Text
+                        }
+                        
 
                     var customer = getCustomerById(data.IDCustomers);
 
@@ -267,271 +198,260 @@
                         "<div><strong>Customer:</strong>&nbsp;" + customer.Text + "</strong></div>" +
                         "</div>" +
                         "</div>");
-                },
-                onAppointmentAdding: function (e) {
-                    
-
-                    $.ajax({
-                        url: '/Home/Create',
-                        type: 'POST',
-                        data: JSON.stringify(e.appointmentData),
-                        contentType: 'application/json; charset=utf-8',
-                        dataType: 'json',
-                        success: function (data) {
-                            if (data.Response == "OK") {
-                                toastr.success("Created", e.appointmentData.text, "info");
-                            }
-                            else
-                                toastr.error("Error: " + data.Result.JobId);
-                        },
-                        error: function (jqXHR, exception) {
-                            toastr.error("Error while saving");
-                        }
-                    });
-                },
-                onAppointmentUpdating: function (e) {
-                    var load;
-                    var offset;
-                    
-
-                    $.ajax({
-                        url: '/Home/Edit',
-                        type: 'POST',
-                        data: JSON.stringify(e.newData),
-                        contentType: 'application/json; charset=utf-8',
-                        dataType: 'json',
-                        success: function (data) {
-                            if (data.Response == "OK") {
-                                toastr.success("Updated", e.appointmentData, "info");
-                            }
-                            else
-                                toastr.error("Error: " + data.Result.JobId);
-                        },
-                        error: function (jqXHR, exception) {
-                            toastr.error("Error while saving");
-                        }
-                    });
-
-                },
-                onAppointmentFormCreated: function (data) {
-
-                    startDateTemp = data.appointmentData.PlannedTime;
-
-                    var form = data.form,
-                        load = getLoadById(data.appointmentData.LoadNumber) || {};
-                    startDate = data.appointmentData.PlannedTime;
-
-                    console.log(load);
-
-                    form.option("items", [{
-                        label: {
-                            text: "Load Number"
-                        },
-                        editorType: "dxTextBox",
-                        dataField: "LoadNumber",
-                        editorOptions: {
-                            value: load.LoadNumber,
-                            readOnly: true
-                        }
-                    }
-                        ,
-                    {
-                        label: {
-                            text: "Status"
-                        },
-                        editorType: "dxSelectBox",
-                        dataField: "IDStatus",
-                        editorOptions: {
-                            items: dropdownsData.Statuses,
-                            displayExpr: "Text",
-                            valueExpr: "Id",
-                            onValueChanged: function (args) {
-                            }
-                        }
-                    }
-                        ,
-                    {
-                        label: {
-                            text: "Customer"
-                        },
-                        editorType: "dxSelectBox",
-                        dataField: "IDCustomers",
-                        editorOptions: {
-                            items: dropdownsData.Customers,
-                            displayExpr: "Text",
-                            valueExpr: "Id",
-                            onValueChanged: function (args) {
-                            }
-                        }
-                    }
-                        ,
-                    {
-                        label: {
-                            text: "Dock"
-                        },
-                        editorType: "dxSelectBox",
-                        dataField: "IDDocks",
-                        editorOptions: {
-                            items: docksData,
-                            displayExpr: "Text",
-                            valueExpr: "Id",
-                            onValueChanged: function (args) {
-                            }
-                        }
-                    }
-                        ,
-                    {
-                        label: {
-                            text: "No Pallets"
-                        },
-                        dataField: "NumberOfPallets",
-                        editorType: "dxTextBox",
-                        editorOptions: {
-                            value: load.NumberOfPallets,
-                            displayExpr: "Text",
-                            valueExpr: "Id",
-                        }
-                    }
-                        ,
-                        {
-                            label: {
-                                text: "Load Type"
-                            },
-                            editorType: "dxSelectBox",
-                            dataField: "IDLoadType",
-                            editorOptions: {
-                                items: dropdownsData.LoadTypes,
-                                displayExpr: "Text",
-                                valueExpr: "Id",
-                                onValueChanged: function (args) {
-
-                                    var loadType = getTimeByLoadTypeId(args.value)
-                                    console.log("argsvalue");
-                                    console.log(args.value);
-                                    //form.getEditor("EstimatedDepartureTime")
-                                    //    .option("value", convertToTime(loadType.value));
-                                    form.getEditor("IDStatus")
-                                        .option("value", 1);
-                                    form.getEditor("endDate")
-                                        .option("value", addMinutes(new Date(startDate), loadType.value));
-
-                                }
-                            }
-                        }
-                        ,
-                    {
-                        label: {
-                            text: "Planned Time"
-                        },
-                        name: "PlannedTime",
-                        dataField: "PlannedTime",
-                        editorType: "dxDateBox",
-                        editorOptions: {
-                            value: load.PlannedTime,
-                            width: "100%",
-                            type: "datetime",
-                            readOnly: false
-                        }
-                    }
-                        ,
-                    {
-                        label: {
-                            text: "Arrival Time"
-                        },
-                        name: "ArivalTime",
-                        dataField: "ArivalTime",
-                        editorType: "dxDateBox",
-                        editorOptions: {
-                            value: load.ArivalTime,
-                            width: "100%",
-                            type: "datetime",
-                            onValueChanged: function (args) {
-                                form.getEditor("IDStatus")
-                                    .option("value", 2);
-                            },
-                            readOnly: false
-                        }
-                    }
-                        ,
-                    {
-                        label: {
-                            text: "Dock On"
-                        },
-                        name: "DockOn",
-                        dataField: "DockOn",
-                        editorType: "dxDateBox",
-                        editorOptions: {
-                            value: load.DockOn,
-                            width: "100%",
-                            type: "datetime",
-                            readOnly: false
-                        }
-                    }
-                        ,
-                    {
-                        label: {
-                            text: "Dock Off"
-                        },
-                        name: "DockOff",
-                        dataField: "DockOff",
-                        editorType: "dxDateBox",
-                        editorOptions: {
-                            value: load.DockOff,
-                            width: "100%",
-                            type: "datetime",
-                            readOnly: false
-                        }
-                    }
-                        ,
-                    {
-                        label: {
-                            text: "Departure Time"
-                        },
-                        name: "DepartureTime",
-                        dataField: "DepartureTime",
-                        editorType: "dxDateBox",
-                        editorOptions: {
-                            value: load.DepartureTime,
-                            width: "100%",
-                            type: "datetime",
-                            onValueChanged: function (args) {
-                                form.getEditor("IDStatus")
-                                    .option("value", 3);
-                            },
-                            readOnly: false
-                        }
-                    }
-                        ,
-                    {
-                        label: {
-                            text: "Deleted"
-                        },
-                        editorType: "dxSelectBox",
-                        dataField: "Deleted",
-                        editorOptions: {
-                            items: deleted,
-                            displayExpr: "text",
-                            valueExpr: "value",
-                            onValueChanged: function (args) {
-                            }
-                        }
-                    }
-
-                    ]);
-
-                    //form.getEditor("TimeSlot")
-                    //    .option("value", new Date(startDate));
-
-                    //form.itemOption("LoadTypeId", { validationRules: [{ type: "required", message: "Load type is required" }] });
-                    //form.itemOption("LoadInOutId", { validationRules: [{ type: "required", message: "Inbound/Outbound is required" }] });
-                    //form.itemOption("TransportCompanyId", { validationRules: [{ type: "required", message: "Transport Company is required" }] });
-                    //form.itemOption("CustomerId", { validationRules: [{ type: "required", message: "Customer is required" }] });
-                    //form.itemOption("DockId", { validationRules: [{ type: "required", message: "Dock is required" }] });
-                    //form.itemOption("TimeSlot", { validationRules: [{ type: "required", message: "TimeSlot is required" }] });
-                    //form.itemOption("EstimatedDepartureTime", { validationRules: [{ type: "required", message: "Estimated Departure time is required" }] });
                 }
-            }).dxScheduler("instance");
-        }
+            }
+            ,
+            onAppointmentAdding: function (e) {
+                    
+                $.ajax({
+                    url: '/Home/Create',
+                    type: 'POST',
+                    data: JSON.stringify(e.appointmentData),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Response == "OK") {
+                            toastr.success("Created", e.appointmentData.text, "info");
+                        }
+                        else
+                            toastr.error("Error: " + data.Result.JobId);
+                    },
+                    error: function (jqXHR, exception) {
+                        toastr.error("Error while saving");
+                    }
+                });
+            },
+            onAppointmentUpdating: function (e) {
+                var load;
+                var offset;
+                    
+                $.ajax({
+                    url: '/Home/Edit',
+                    type: 'POST',
+                    data: JSON.stringify(e.newData),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Response == "OK") {
+                            toastr.success("Updated", e.appointmentData, "info");
+                        }
+                        else
+                            toastr.error("Error: " + data.Result.JobId);
+                    },
+                    error: function (jqXHR, exception) {
+                        toastr.error("Error while saving");
+                    }
+                });
+
+            },
+            onAppointmentFormCreated: function (data) {
+
+                startDateTemp = data.appointmentData.PlannedTime;
+
+                var form = data.form,
+                    load = getLoadById(data.appointmentData.LoadNumber) || {};
+                startDate = data.appointmentData.PlannedTime;
+
+                console.log(load);
+
+                form.option("items", [{
+                    label: {
+                        text: "Load Number"
+                    },
+                    editorType: "dxTextBox",
+                    dataField: "LoadNumber",
+                    editorOptions: {
+                        value: load.LoadNumber,
+                        readOnly: true
+                    }
+                }
+                    ,
+                {
+                    label: {
+                        text: "Status"
+                    },
+                    editorType: "dxSelectBox",
+                    dataField: "IDStatus",
+                    editorOptions: {
+                        items: dropdownsData.Statuses,
+                        displayExpr: "Text",
+                        valueExpr: "Id",
+                        onValueChanged: function (args) {
+                        }
+                    }
+                }
+                    ,
+                {
+                    label: {
+                        text: "Customer"
+                    },
+                    editorType: "dxSelectBox",
+                    dataField: "IDCustomers",
+                    editorOptions: {
+                        items: dropdownsData.Customers,
+                        displayExpr: "Text",
+                        valueExpr: "Id",
+                        onValueChanged: function (args) {
+                        }
+                    }
+                }
+                    ,
+                {
+                    label: {
+                        text: "Dock"
+                    },
+                    editorType: "dxSelectBox",
+                    dataField: "IDDocks",
+                    editorOptions: {
+                        items: docksData,
+                        displayExpr: "Text",
+                        valueExpr: "Id",
+                        onValueChanged: function (args) {
+                        }
+                    }
+                }
+                    ,
+                {
+                    label: {
+                        text: "No Pallets"
+                    },
+                    dataField: "NumberOfPallets",
+                    editorType: "dxTextBox",
+                    editorOptions: {
+                        value: load.NumberOfPallets,
+                        displayExpr: "Text",
+                        valueExpr: "Id",
+                    }
+                }
+                    ,
+                    {
+                        label: {
+                            text: "Load Type"
+                        },
+                        editorType: "dxSelectBox",
+                        dataField: "IDLoadType",
+                        editorOptions: {
+                            items: dropdownsData.LoadTypes,
+                            displayExpr: "Text",
+                            valueExpr: "Id",
+                            onValueChanged: function (args) {
+                            }
+                        }
+                    }
+                    ,
+                {
+                    label: {
+                        text: "Planned Time"
+                    },
+                    name: "PlannedTime",
+                    dataField: "PlannedTime",
+                    editorType: "dxDateBox",
+                    editorOptions: {
+                        value: load.PlannedTime,
+                        format:"shortDateShortTime",
+                        width: "100%",
+                        type: "datetime",
+                        readOnly: false
+                    }
+                }
+                    ,
+                {
+                    label: {
+                        text: "Arrival Time"
+                    },
+                    name: "ArivalTime",
+                    dataField: "ArivalTime",
+                    editorType: "dxDateBox",
+                    editorOptions: {
+                        value: load.ArivalTime,
+                        format: "shortDateShortTime",
+                        width: "100%",
+                        type: "datetime",
+                        onValueChanged: function (args) {
+                            form.getEditor("IDStatus")
+                                .option("value", 2);
+                        },
+                        readOnly: false
+                    }
+                }
+                    ,
+                {
+                    label: {
+                        text: "Dock On"
+                    },
+                    name: "DockOn",
+                    dataField: "DockOn",
+                    editorType: "dxDateBox",
+                    editorOptions: {
+                        value: load.DockOn,
+                        format: "shortDateShortTime",
+                        width: "100%",
+                        type: "datetime",
+                        readOnly: false
+                    }
+                }
+                    ,
+                {
+                    label: {
+                        text: "Dock Off"
+                    },
+                    name: "DockOff",
+                    dataField: "DockOff",
+                    editorType: "dxDateBox",
+                    editorOptions: {
+                        value: load.DockOff,
+                        format: "shortDateShortTime",
+                        width: "100%",
+                        type: "datetime",
+                        readOnly: false
+                    }
+                }
+                    ,
+                {
+                    label: {
+                        text: "Departure Time"
+                    },
+                    name: "DepartureTime",
+                    dataField: "DepartureTime",
+                    editorType: "dxDateBox",
+                    editorOptions: {
+                        value: load.DepartureTime,
+                        format: "shortDateShortTime",
+                        width: "100%",
+                        type: "datetime",
+                        onValueChanged: function (args) {
+                            form.getEditor("IDStatus")
+                                .option("value", 3);
+                        },
+                        readOnly: false
+                    }
+                }
+                    ,
+                {
+                    label: {
+                        text: "Deleted"
+                    },
+                    editorType: "dxSelectBox",
+                    dataField: "Deleted",
+                    editorOptions: {
+                        items: deleted,
+                        displayExpr: "text",
+                        valueExpr: "value",
+                        onValueChanged: function (args) {
+                        }
+                    }
+                }
+
+                ]);
+
+                form.itemOption("IDLoadType", { validationRules: [{ type: "required", message: "Load type is required" }] });
+                form.itemOption("PlannedTime", { validationRules: [{ type: "required", message: "Load type is required" }] });
+                form.itemOption("IDCustomers", { validationRules: [{ type: "required", message: "Customer is required" }] });
+                form.itemOption("IDDocks", { validationRules: [{ type: "required", message: "Dock is required" }] });
+                form.itemOption("NumberOfPallets", { validationRules: [{ type: "required", message: "Number Of Pallets is required" }, { type: "numeric", message: "Format number is required" }] });
+            }
+        }).dxScheduler("instance");
+    }
 
 
     function getLoadById(id) {
@@ -540,24 +460,19 @@
             .filter("LoadNumber", id)
             .toArray()[0];
     }
+
     function getCustomerById(id) {
         console.log("GetCustomerByID")
         return DevExpress.data.query(dropdownsData.Customers)
             .filter("Id", id)
             .toArray()[0];
     }
-
-    //function getTimeByLoadTypeId(id) {
-    //    console.log("GetTimeByLoadTypeId")
-    //    return DevExpress.data.query(dropdownsData.LoadTypes)
-    //        .filter("Id", id)
-    //        .toArray()[0];
-    //}
-
+    
     function getMinutesBetweenDates(startDate, endDate) {
         var diff = new Date(endDate).getTime() - new Date(startDate).getTime();
         return (diff / 60000);
     }
+
     function addMinutes(date, minutes) {
         return new Date(date.getTime() + minutes * 60000);
     }
@@ -569,66 +484,5 @@
         m = m < 10 ? '0' + m : m;
         return h + ':' + m;
     }
-
-    //}();
-
-    //jQuery(document).ready(function () {
-    //    Planner.init();
-    //});
-
-
-@*@(Html.DevExtreme().Scheduler()
-                                    .ID("scheduler")
-                                    .DataSource(dropdownsData.Loads)
-                                    .TextExpr("LoadNumber")
-                                    .StartDateExpr("PlannedTime")
-                                    .EndDateExpr("DepartureTime")
-                                    .Views(views =>
-                                    {
-                                        views.Add()
-                                            .Name("Day")
-                                            .Type(SchedulerViewType.Day)
-                                            .GroupOrientation(Orientation.Horizontal)
-                                            .CellDuration(60);
-
-                                    })
-                                    .CurrentView(SchedulerViewType.Day)
-                                    .Groups(new string[] { "IDDocks" })
-                                    .Resources(res =>
-                                    {
-                            //res.Add()
-                            //    .FieldExpr("Color")
-                            //    .AllowMultiple(false)
-                            //    .UseColorAsDefault(true)
-                            //    .DataSource(Model.LoadList)
-                            //    .ColorExpr("Color")
-                            //    .ValueExpr("ID");
-
-                            res.Add()
-                                            .FieldExpr("IDDocks")
-                                            .ValueExpr("ID")
-                                            .DisplayExpr("Name")
-                                            .AllowMultiple(true)
-                                            .Label("Name")
-                                            .DataSource(Model.DockList);
-                                    })
-                                    .CrossScrollingEnabled(false)
-                                    .CurrentDate(new DateTime(2018, 5, 12))
-                                    .StartDayHour(0)
-                                    .ShowCurrentTimeIndicator(true)
-                                    .ShowAllDayPanel(false)
-                                    .EndDayHour(24)
-                                    .ShowCurrentTimeIndicator(true)
-                                    .OnAppointmentFormCreated("appointmentForm_created")
-                                    .OnAppointmentAdded("appointment_added")
-                                    .AppointmentTooltipTemplate(@<text>
-                                        @(Html.Partial("_ToolTip"))
-                                    </text>)
-                                            .AppointmentTemplate(@<text>
-                                                @(Html.Partial("_AppointmentTemplate"))
-                                            </text>)
-                                                    //.OnAppointmentDblClick("showInfo")
-                                                    .OnAppointmentUpdated("appointment_updated")
-)*@
-
+    
 </script>
