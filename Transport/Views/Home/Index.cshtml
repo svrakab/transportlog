@@ -27,6 +27,17 @@
     var a2 = getDocksData();
     var a3 = getDropdownsData();
     
+    var deleted = [
+        {
+            value: false,
+            text: "False"
+        },
+        {
+            value: true,
+            text: "True"
+        }
+    ];
+    
     $(document).ready(function () {
         $.when(a1,a2,a3).done(function () {
             startScheduler();
@@ -34,8 +45,7 @@
             console.log(loadsData);
         });
     });
-
-  
+    
     function getSchedulerInstance() {
         console.log("startSchedulerInstance")
 
@@ -96,18 +106,6 @@
             }
         });
     }
-
-    
-    var deleted = [
-        {
-            value: false,
-            text: "False"
-        },
-        {
-            value: true,
-            text: "True"
-        }
-    ]
     
     function startScheduler() {
         console.log("StartScheduler");

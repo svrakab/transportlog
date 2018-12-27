@@ -255,7 +255,6 @@
     <Compile Include="Models\Load.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\LoadGeneric2.cs" />
     <Compile Include="Models\LoadGeneric.cs" />
     <Compile Include="Models\LoadType.cs">
       <DependentUpon>Model.tt</DependentUpon>

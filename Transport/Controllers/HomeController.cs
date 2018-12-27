@@ -13,18 +13,7 @@ namespace Transport.Controllers
     public class HomeController : Controller
     {
         Models.TransportLogEntities transpContext = new Models.TransportLogEntities();
-
-        //public JsonResult GetLoads()
-        //{
-        //    List<Load> loadGeneric = transpContext.Load.ToList();
-
-        //var json = JsonConvert.SerializeObject(Loads);
-
-
-        //    return Json(loadGeneric, JsonRequestBehavior.AllowGet);
-        //}
-
-
+        
         public JsonResult GetDocks()
         {
 
@@ -40,7 +29,7 @@ namespace Transport.Controllers
         
         public JsonResult GetLoads()
         {
-            List<LoadGeneric2> Loads = transpContext.Load.Where(d => d.Deleted == false).Select(st => new LoadGeneric2
+            List<LoadGeneric> Loads = transpContext.Load.Where(d => d.Deleted == false).Select(st => new LoadGeneric
             {
                 LoadNumber = st.LoadNumber,
                 NumberOfPallets = st.NumberOfPallets,
@@ -157,8 +146,7 @@ namespace Transport.Controllers
                 }
             }
         }
-
-
+        
         [HttpPost]
         public JsonResult Edit(Load load)
         {
@@ -185,7 +173,6 @@ namespace Transport.Controllers
                         loadN.Deleted = load.Deleted;
                     }
                     
-
                     if (loadN.ArivalTime == null)
                     {
                         loadN.IDStatus = 1;
@@ -199,8 +186,6 @@ namespace Transport.Controllers
                         loadN.IDStatus = 2;
                     }
                     
-                    
-
                     DBContext.SaveChanges();
 
                     return Json(new { success = true, artikli = load });
@@ -221,6 +206,4 @@ namespace Transport.Controllers
             }
         }
     }
-
-
 }
