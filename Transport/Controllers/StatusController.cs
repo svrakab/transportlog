@@ -47,7 +47,7 @@ namespace Transport.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Color,Description")] Status status)
+        public ActionResult Create([Bind(Include = "ID,Name,ColorName,Description,ColorHex")] Status status)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace Transport.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Color,Description")] Status status)
+        public ActionResult Edit([Bind(Include = "ID,Name,ColorName,Description,ColorHex")] Status status)
         {
             if (ModelState.IsValid)
             {

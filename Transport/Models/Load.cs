@@ -20,11 +20,13 @@ namespace Transport.Models
         public Nullable<System.DateTime> ArivalTime { get; set; }
         public Nullable<System.DateTime> DockOn { get; set; }
         public Nullable<System.DateTime> DockOff { get; set; }
-        public System.DateTime DepartureTime { get; set; }
+        public Nullable<System.DateTime> DepartureTime { get; set; }
         public int IDStatus { get; set; }
         public int IDLoadType { get; set; }
         public int IDCustomers { get; set; }
         public int IDDocks { get; set; }
+        public Nullable<System.DateTime> EndDate { get; set; }
+        public Nullable<bool> Deleted { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Dock Dock { get; set; }

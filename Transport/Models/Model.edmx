@@ -116,11 +116,13 @@
           <Property Name="ArivalTime" Type="smalldatetime" />
           <Property Name="DockOn" Type="smalldatetime" />
           <Property Name="DockOff" Type="smalldatetime" />
-          <Property Name="DepartureTime" Type="smalldatetime" Nullable="false" />
+          <Property Name="DepartureTime" Type="smalldatetime" />
           <Property Name="IDStatus" Type="int" Nullable="false" />
           <Property Name="IDLoadType" Type="int" Nullable="false" />
           <Property Name="IDCustomers" Type="int" Nullable="false" />
           <Property Name="IDDocks" Type="int" Nullable="false" />
+          <Property Name="EndDate" Type="smalldatetime" />
+          <Property Name="Deleted" Type="bit" />
         </EntityType>
         <EntityType Name="LoadType">
           <Key>
@@ -136,8 +138,9 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Color" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ColorName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="ColorHex" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_AspNetUsers_Country">
           <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
@@ -534,11 +537,13 @@
           <Property Name="ArivalTime" Type="DateTime" Precision="0" />
           <Property Name="DockOn" Type="DateTime" Precision="0" />
           <Property Name="DockOff" Type="DateTime" Precision="0" />
-          <Property Name="DepartureTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DepartureTime" Type="DateTime" Precision="0" />
           <Property Name="IDStatus" Type="Int32" Nullable="false" />
           <Property Name="IDLoadType" Type="Int32" Nullable="false" />
           <Property Name="IDCustomers" Type="Int32" Nullable="false" />
           <Property Name="IDDocks" Type="Int32" Nullable="false" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="Deleted" Type="Boolean" />
           <NavigationProperty Name="Customer" Relationship="TransportLogModel.FK_Loads_Customers" FromRole="Load" ToRole="Customer" />
           <NavigationProperty Name="Dock" Relationship="TransportLogModel.FK_Loads_Docks" FromRole="Load" ToRole="Dock" />
           <NavigationProperty Name="LoadType" Relationship="TransportLogModel.FK_Load_LoadType" FromRole="Load" ToRole="LoadType" />
@@ -559,8 +564,9 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Color" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ColorName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ColorHex" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Load" Relationship="TransportLogModel.FK_Load_Status" FromRole="Status" ToRole="Load" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -774,6 +780,8 @@
           <EntitySetMapping Name="Load">
             <EntityTypeMapping TypeName="TransportLogModel.Load">
               <MappingFragment StoreEntitySet="Load">
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
                 <ScalarProperty Name="IDDocks" ColumnName="IDDocks" />
                 <ScalarProperty Name="IDCustomers" ColumnName="IDCustomers" />
                 <ScalarProperty Name="IDLoadType" ColumnName="IDLoadType" />
@@ -800,8 +808,9 @@
           <EntitySetMapping Name="Status">
             <EntityTypeMapping TypeName="TransportLogModel.Status">
               <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="ColorHex" ColumnName="ColorHex" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="ColorName" ColumnName="ColorName" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

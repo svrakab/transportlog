@@ -19,7 +19,7 @@
             <h1>
                 @ViewBag.AppName
             </h1>
-        </div> 
+        </div>
         <div class="col-md-6">
             @Html.Partial("_LoginPartial")
         </div>
@@ -35,7 +35,7 @@
             @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
         </div>*@
 
-    <div class="row">
+    <div class="all">
         <div class="col-md-12">
             <div class="navbar-fixed-left col-md-2 maketopborder">
                 <ul class="nav navbar-nav">
@@ -53,16 +53,16 @@
                     </ul>
             </div>
 
-            <div class="container body-content col-md-10 maketopborder">
+            <div class="container body-content col-md-12 maketopborder">
                 @RenderBody()
             </div>
         </div>
     </div>
-        
-        @Scripts.Render("~/bundles/myjs")
-        
-        @Scripts.Render("~/bundles/bootstrap")
-        
-        @RenderSection("scripts", required: false)
+
+
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <link href="~/Content/site.css" rel="stylesheet" />
+    @RenderSection("scripts", required: false)
 </body>
 </html>
