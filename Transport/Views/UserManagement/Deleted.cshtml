@@ -5,9 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Deleted Users</h2>
+<div class="topbar">
 
-<p>@Html.ActionLink("Active Users", "Index")</p>
+    <h2>Deleted Users</h2>
+
+    <p>@Html.ActionLink("Active Users", "Index", new { }, new { @class = "btn btn-secondary" })</p>
+
+</div>
 
 <table class="table">
     <tr>
@@ -41,7 +45,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-secondary" })
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)

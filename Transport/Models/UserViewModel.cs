@@ -24,8 +24,6 @@ namespace Transport.Models
         [Required]
         [StringLength(50)]
         public string City { get; set; }
-        [Required]
-        [StringLength(50)]
         public string Country { get; set; }
         [Phone]
         public string Phone { get; set; }

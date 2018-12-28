@@ -10,6 +10,8 @@ using Transport.Models;
 
 namespace Transport.Controllers
 {
+    [Authorize(Roles = "Admin, User")]
+
     public class HomeController : Controller
     {
         Models.TransportLogEntities transpContext = new Models.TransportLogEntities();
@@ -89,34 +91,9 @@ namespace Transport.Controllers
 
         public ActionResult Index()
         {
-            Models.GroupHomeViewModel model = new Models.GroupHomeViewModel();
-
-            List<Models.Load> loadList = transpContext.Load.ToList();
-            List<Models.Dock> dockList = transpContext.Dock.ToList();
-            
-            model.LoadList = loadList;
-            model.DockList = dockList;
-
-            return View(model);
+            return View();
         }
-
-        public ActionResult Create()
-        {
-            using (var DBContext = new TransportLogEntities())
-            {
-                ViewBag.StatusList = new SelectList(DBContext.Status.ToList(), "ID", "Name");
-
-                ViewBag.CustomerList = new SelectList(DBContext.Customer.ToList(), "ID", "FirstName");
-
-                ViewBag.DockList = new SelectList(DBContext.Dock.ToList(), "ID", "Name");
-
-                ViewBag.LoadTypeList = new SelectList(DBContext.LoadType.ToList(), "ID", "Name");
-
-
-                return View();
-            }
-        }
-
+        
         [HttpPost]
         public JsonResult Create(Load load)
         {

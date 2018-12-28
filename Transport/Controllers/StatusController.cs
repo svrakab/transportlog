@@ -15,9 +15,19 @@ namespace Transport.Controllers
     {
         private TransportLogEntities db = new TransportLogEntities();
 
+        Models.TransportLogEntities transpContext = new Models.TransportLogEntities();
+
+
         // GET: Status
         public ActionResult Index()
         {
+            List<Generic> colors = transpContext.Status.Select(st => new Generic
+            {
+                Id = st.ID,
+                Color = st.ColorHex
+            }).ToList();
+            ViewBag.Colors = colors;
+                
             return View(db.Status.ToList());
         }
 

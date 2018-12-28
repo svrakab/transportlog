@@ -6,14 +6,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Users List</h2>
 
-<p>
-    @Html.ActionLink("Create New", "../Account/Register")
-</p>
-<p>
-    @Html.ActionLink("Deleted", "Deleted")
-</p>
+<div class="topbar">
+    <h2>Users List</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "../Account/Register", new { }, new { @class = "btn btn-secondary" })
+    </p>
+    <p>
+        @Html.ActionLink("Deleted", "Deleted", new { }, new { @class = "btn btn-secondary" })
+    </p>
+</div>
 <table class="table">
     <tr>
         <th>
@@ -47,7 +50,7 @@
     {
         <tr>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-secondary" })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)

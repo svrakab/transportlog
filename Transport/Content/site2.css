@@ -21,11 +21,7 @@
 
 /* Set width on the form input elements since they're 100% wide by default */
 
-input,
-select,
-textarea {
-    max-width: 280px;
-}
+
 
 /*Our CSS*/
 
@@ -40,14 +36,7 @@ h1 {
     margin: 15px;
 }
 
-.loginposition {
-    margin: 15px;
-    list-style-type: none;
-}
 
-    .loginposition > ul {
-        list-style-type: none;
-    }
 
 .nav-link {
     display: inline-block;

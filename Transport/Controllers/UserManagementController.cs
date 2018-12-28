@@ -71,6 +71,7 @@ namespace Transport.Controllers
         public ActionResult Edit(string id)
 
         {
+            
 
             var usersWithRoles = (from user in transpContext.AspNetUsers
 
@@ -119,6 +120,7 @@ namespace Transport.Controllers
             }
             ViewBag.Country = new SelectList(transpContext.Country.ToList(), "ID", "Name");
             ViewBag.Roles = new SelectList(transpContext.AspNetRoles.ToList(), "Name", "Name");
+
             return View(usersWithRoles);
 
         }
@@ -126,6 +128,9 @@ namespace Transport.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(UserViewModel users)
         {
+            ViewBag.Country = new SelectList(transpContext.Country.ToList(), "ID", "Name");
+            ViewBag.Roles = new SelectList(transpContext.AspNetRoles.ToList(), "Name", "Name");
+
             if (ModelState.IsValid)
             {
 

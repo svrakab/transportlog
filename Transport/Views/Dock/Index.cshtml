@@ -9,9 +9,9 @@
 <h2>Docks</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", new { }, new { @class = "btn btn-secondary" })
 </p>
-<table class="table">
+<table class="table table-striped">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -37,9 +37,9 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }, new { @class = "btn btn-secondary"} ) 
+            @Html.ActionLink("Details", "Details", new { id=item.ID }, new { @class = "btn btn-secondary" }) 
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID }, new { @class = "btn btn-secondary" })
         </td>
     </tr>
 }

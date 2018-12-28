@@ -7,37 +7,16 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
-	@Styles.Render("~/Content/DevExtremeBundle")
-	
-	@Scripts.Render("~/bundles/jquery")
-	@Scripts.Render("~/Scripts/DevExtremeBundle")
+    @Styles.Render("~/Content/DevExtremeBundle")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Scripts/DevExtremeBundle")
+
+    <script src="~/Scripts/jscolor.js"></script>
+
 
 </head>
     <body>
-
-        <div class="container-fluid h-100">
-
-            <div class="row h-100">
-
-                <div class="col-md-6 p-0 h-100 text-center justify-content-center">
-
-                    <h1>
-
-                        @ViewBag.AppName
-
-                    </h1>
-
-                </div>
-
-                <div class="col-md-6 p-0 h-100 text-center justify-content-center">
-
-                    @Html.Partial("_LoginPartial")
-
-                </div>
-
-            </div>
-
-        </div>
 
         <div class="container-fluid h-100">
 
@@ -47,7 +26,17 @@
 
                     <nav class="navbar navbar-expand-sm bg-light h-100 text-center justify-content-center">
 
-                        <ul class="navbar-nav">
+                        <div class="col-md-4 p-0 h-100 text-center justify-content-center">
+
+                            <h1>
+
+                                @ViewBag.AppName
+
+                            </h1>
+
+                        </div>
+
+                        <ul class="navbar-nav col-md-6">
                             @if (Request.IsAuthenticated && User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
@@ -81,6 +70,12 @@
                                 </li>}
 
                         </ul>
+
+                        <div class="col-md-2 p-0 h-100 text-center justify-content-center">
+
+                            @Html.Partial("_LoginPartial")
+
+                        </div>
 
                     </nav>
 

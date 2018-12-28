@@ -6,12 +6,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Customers List</h2>
+<div class="topbar">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+    <h2>Customers List</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create", new { }, new { @class = "btn btn-secondary" })
+    </p>
+
+</div>
+<table class="table table-striped">
     <tr>
         <th>
             Actions
@@ -40,7 +44,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-secondary" })
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
@@ -61,8 +65,8 @@
             @Html.DisplayFor(modelItem => item.Active)
         </td>
         <td>
-            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-secondary" }) 
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-secondary" })
         </td>
     </tr>
 }
