@@ -42,19 +42,19 @@
     $(document).ready(function () {
         $.when(a1,a2,a3).done(function () {
             startScheduler();
-            console.log("loadsData");
-            console.log(loadsData);
+            //console.log("loadsData");
+            //console.log(loadsData);
         });
     });
     
     function getSchedulerInstance() {
-        console.log("startSchedulerInstance")
+        //console.log("startSchedulerInstance")
 
         return scheduler.dxScheduler("instance");
     }
 
     function getLoadsData() {
-        console.log("getLoadsData")
+        //console.log("getLoadsData")
 
         return $.ajax({
             url: "/Home/GetLoads",
@@ -73,7 +73,7 @@
     }
 
     function getDocksData() {
-        console.log("getDocksData")
+        //console.log("getDocksData")
 
         return $.ajax({
             url: "/Home/GetDocks",
@@ -91,7 +91,7 @@
     }
 
     function getDropdownsData() {
-        console.log("getDropdownsData")
+        //console.log("getDropdownsData")
 
         return $.ajax({
             url: "/Home/GetDropdowns",
@@ -109,17 +109,17 @@
     }
     
     function startScheduler() {
-        console.log("StartScheduler");
-        console.log("loadsData");
-        console.log(loadsData);
-        console.log("docksData");
-        console.log(docksData);
-        console.log("dropdownsData.Statuses");
-        console.log(dropdownsData.Statuses);
-        console.log("dropdownsData.LoadTypes");
-        console.log(dropdownsData.LoadTypes);
-        console.log("dropdownsData.Customers");
-        console.log(dropdownsData.Customers);
+        //console.log("StartScheduler");
+        //console.log("loadsData");
+        //console.log(loadsData);
+        //console.log("docksData");
+        //console.log(docksData);
+        //console.log("dropdownsData.Statuses");
+        //console.log(dropdownsData.Statuses);
+        //console.log("dropdownsData.LoadTypes");
+        //console.log(dropdownsData.LoadTypes);
+        //console.log("dropdownsData.Customers");
+        //console.log(dropdownsData.Customers);
 
 
         scheduler = $("#scheduler").dxScheduler({
@@ -201,7 +201,6 @@
             }
             ,
             onAppointmentAdding: function (e) {
-                    
                 $.ajax({
                     url: '/Home/Create',
                     type: 'POST',
@@ -221,9 +220,6 @@
                 });
             },
             onAppointmentUpdating: function (e) {
-                var load;
-                var offset;
-                    
                 $.ajax({
                     url: '/Home/Edit',
                     type: 'POST',
@@ -234,14 +230,35 @@
                         if (data.Response == "OK") {
                             toastr.success("Updated", e.appointmentData, "info");
                         }
-                        else
-                            toastr.error("Error: " + data.Result.JobId);
+                        else {
+                            //toastr.error("Error: " + data.Result.JobId);
+                        }
                     },
                     error: function (jqXHR, exception) {
                         toastr.error("Error while saving");
                     }
                 });
 
+            },
+            onAppointmentDeleting: function (e) {
+                $.ajax({
+                    url: '/Home/Delete',
+                    type: 'POST',
+                    data: JSON.stringify(e.appointmentData),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Response == "OK") {
+                            toastr.success("Deleted", e.appointmentData, "info");
+                        }
+                        else {
+                            //toastr.error("Error: " + data.Result.JobId);
+                        }
+                    },
+                    error: function (jqXHR, exception) {
+                        toastr.error("Error while saving");
+                    }
+                });
             },
             onAppointmentFormCreated: function (data) {
 
@@ -251,7 +268,7 @@
                     load = getLoadById(data.appointmentData.LoadNumber) || {};
                 startDate = data.appointmentData.PlannedTime;
 
-                console.log(load);
+                //console.log(load);
 
                 form.option("items", [{
                     label: {
@@ -276,6 +293,7 @@
                         displayExpr: "Text",
                         valueExpr: "Id",
                         onValueChanged: function (args) {
+                            form.itemOption("IDStatus", { validationRules: [{ type: "custom", message: "Status is required" }] });
                         }
                     }
                 }
@@ -386,6 +404,11 @@
                         format: "shortDateShortTime",
                         width: "100%",
                         type: "datetime",
+                        onValueChanged: function (args) {
+
+
+
+                        },
                         readOnly: false
                     }
                 }
@@ -402,6 +425,9 @@
                         format: "shortDateShortTime",
                         width: "100%",
                         type: "datetime",
+                        onValueChanged: function (args) {
+                            
+                        },
                         readOnly: false
                     }
                 }
@@ -421,6 +447,7 @@
                         onValueChanged: function (args) {
                             form.getEditor("IDStatus")
                                 .option("value", 3);
+
                         },
                         readOnly: false
                     }
@@ -443,25 +470,144 @@
 
                 ]);
 
-                form.itemOption("IDLoadType", { validationRules: [{ type: "required", message: "Load type is required" }] });
-                form.itemOption("PlannedTime", { validationRules: [{ type: "required", message: "Planned Time is required" }] });
-                form.itemOption("IDCustomers", { validationRules: [{ type: "required", message: "Customer is required" }] });
-                form.itemOption("IDDocks", { validationRules: [{ type: "required", message: "Dock is required" }] });
-                form.itemOption("NumberOfPallets", { validationRules: [{ type: "required", message: "Number Of Pallets is required" }, { type: "numeric", message: "Format number is required" }] });
+                //Validation for Form
+                form.itemOption("IDLoadType", {
+                    validationRules: [{
+                        type: "required",
+                        message: "Load type is required"
+                    }]
+                });
+                form.itemOption("PlannedTime", {
+                    validationRules: [{
+                        type: "required",
+                        message: "Planned Time is required"
+                    }]
+                });
+                form.itemOption("IDCustomers", {
+                    validationRules: [{
+                        type: "required",
+                        message: "Customer is required"
+                    }]
+                });
+                form.itemOption("IDDocks", {
+                    validationRules: [{
+                        type: "required",
+                        message: "Dock is required"
+                    }]
+                });
+                form.itemOption("NumberOfPallets", {
+                    validationRules: [{
+                        type: "required",
+                        message: "Number Of Pallets is required"
+                    },
+                    {
+                        type: "numeric",
+                        message: "Format number is required"
+                    }]
+                });
+
+                //Custom validation
+                form.itemOption("DockOn", {
+                    validationRules: [{
+                        type: "custom",
+                        validationCallback: validationCallbackDockOn1,
+                        message: "Dock On must be after Arrival Time"
+                    },
+                    {
+                        type: "custom",
+                        validationCallback: validationCallbackDockOn2,
+                        message: "Dock On must be before Dock Off"
+                    }]
+                });
+                form.itemOption("DockOff", {
+                    validationRules: [{
+                        type: "custom",
+                        validationCallback: validationCallbackDockOff1,
+                        message: "Dock Off must be after Dock On"
+                    },
+                    {
+                        type: "custom",
+                        validationCallback: validationCallbackDockOff2,
+                        message: "Dock Off must be before Departure Time"
+                    }]
+                });
+                form.itemOption("DepartureTime", {
+                    validationRules: [{
+                        type: "custom",
+                        validationCallback: validationCallbackDepartureTime,
+                        message: "Departure Time must be after Dock Off"
+                    }]
+                });
+
+                function validationCallbackDockOn1(e) {
+                    //console.log("validationcallbackDockOn1");
+                    //console.log(e.value);
+
+                    var check = checkIsItAfter(form.getEditor("ArivalTime").option("value"), e.value)
+
+                    //console.log("Check");
+                    //console.log(check);
+                    return check;
+                }
+                function validationCallbackDockOn2(e) {
+                    //console.log("validationcallbackDockOn2");
+                    //console.log(e.value);
+                    if (form.getEditor("DockOff").option("value") == null) return true;
+
+                    var check = checkIsItAfter(e.value, form.getEditor("DockOff").option("value"))
+
+                    //console.log("Check");
+                    //console.log(check);
+                    return check;
+                }
+                function validationCallbackDockOff1(e) {
+                   
+                    var check = checkIsItAfter(form.getEditor("DockOn").option("value"), e.value)
+                    
+                    return check;
+                }
+                function validationCallbackDockOff2(e) {
+                    depTime = form.getEditor("DepartureTime").option("value");
+                    if (depTime == null) return true;
+
+                    var check = checkIsItAfter(e.value, form.getEditor("DepartureTime").option("value"))
+
+                    console.log("Check DockOff2");
+                    console.log(check);
+                    return check;
+                }
+                function validationCallbackDepartureTime(e) {
+                    if (e.value == null) return true;
+
+                    var check = checkIsItAfter(form.getEditor("DockOff").option("value"), e.value)
+
+                    return check;
+                }
+
             }
         }).dxScheduler("instance");
     }
 
+    
+    
+
+    function checkIsItAfter(firstDate, secondDate) {
+        if (new Date(firstDate) <= new Date(secondDate)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     function getLoadById(id) {
-        console.log("GetLoadByID")
+        //console.log("GetLoadByID")
         return DevExpress.data.query(loadsData)
             .filter("LoadNumber", id)
             .toArray()[0];
     }
 
     function getCustomerById(id) {
-        console.log("GetCustomerByID")
+        //console.log("GetCustomerByID")
         return DevExpress.data.query(dropdownsData.Customers)
             .filter("Id", id)
             .toArray()[0];

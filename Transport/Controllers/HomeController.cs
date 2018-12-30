@@ -127,8 +127,6 @@ namespace Transport.Controllers
         [HttpPost]
         public JsonResult Edit(Load load)
         {
-
-
             using (var DBContext = new TransportLogEntities())
             {
                 if (ModelState.IsValid)
@@ -166,7 +164,6 @@ namespace Transport.Controllers
                     DBContext.SaveChanges();
 
                     return Json(new { success = true, artikli = load });
-                    
                 }
                 else
                 {
@@ -182,5 +179,38 @@ namespace Transport.Controllers
                 }
             }
         }
+
+        [HttpPost]
+        public JsonResult Delete(Load load)
+        {
+            using (var DBContext = new TransportLogEntities())
+            {
+                if (ModelState.IsValid)
+                {
+                    var loadN = DBContext.Load.Where(x => x.LoadNumber == load.LoadNumber).FirstOrDefault();
+                    if (loadN != null)
+                    {
+                        loadN.Deleted = true;
+                    }
+                    
+                    DBContext.SaveChanges();
+
+                    return Json(new { success = true, artikli = load });
+                }
+                else
+                {
+                    var errorList = ModelState.ToDictionary(
+                            kvp => kvp.Key,
+                            kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                                );
+                    return Json(new
+                    {
+                        success = false,
+                        error = errorList.Where(c => c.Value.Count() > 0)
+                    });
+                }
+            }
+        }
+
     }
 }
