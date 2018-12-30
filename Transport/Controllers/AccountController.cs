@@ -189,7 +189,6 @@ namespace Transport.Controllers
 
         //
         // GET: /Account/ConfirmEmail
-        [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)
@@ -202,7 +201,6 @@ namespace Transport.Controllers
 
         //
         // GET: /Account/ForgotPassword
-        [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
             return View();
@@ -211,7 +209,6 @@ namespace Transport.Controllers
         //
         // POST: /Account/ForgotPassword
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
@@ -238,7 +235,6 @@ namespace Transport.Controllers
 
         //
         // GET: /Account/ForgotPasswordConfirmation
-        [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
         {
             return View();
@@ -246,7 +242,6 @@ namespace Transport.Controllers
 
         //
         // GET: /Account/ResetPassword
-        [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
             return code == null ? View("Error") : View();
@@ -255,7 +250,6 @@ namespace Transport.Controllers
         //
         // POST: /Account/ResetPassword
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
@@ -280,7 +274,6 @@ namespace Transport.Controllers
 
         //
         // GET: /Account/ResetPasswordConfirmation
-        [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
         {
             return View();
@@ -289,7 +282,6 @@ namespace Transport.Controllers
         //
         // POST: /Account/ExternalLogin
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
@@ -299,7 +291,6 @@ namespace Transport.Controllers
 
         //
         // GET: /Account/SendCode
-        [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
             var userId = await SignInManager.GetVerifiedUserIdAsync();
@@ -315,7 +306,6 @@ namespace Transport.Controllers
         //
         // POST: /Account/SendCode
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SendCode(SendCodeViewModel model)
         {
@@ -403,6 +393,7 @@ namespace Transport.Controllers
         //
         // POST: /Account/LogOff
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {

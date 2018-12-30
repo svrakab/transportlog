@@ -76,7 +76,9 @@ namespace Transport.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Status status = db.Status.Find(id);
+
             if (status == null)
             {
                 return HttpNotFound();
@@ -92,7 +94,11 @@ namespace Transport.Controllers
         public ActionResult Edit([Bind(Include = "ID,Name,ColorName,Description,ColorHex")] Status status)
         {
             if (ModelState.IsValid)
-            {
+            { 
+                if (!status.ColorHex.StartsWith("#"))
+                {
+                    status.ColorHex = "#" + status.ColorHex;
+                }
                 db.Entry(status).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
